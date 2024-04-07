@@ -1,0 +1,42 @@
+Football-Prem
+
+player table
+id
+name
+club_id
+total apperances
+age
+clubcount_id
+
+league table
+id
+name
+description
+ranking
+
+club table
+id
+name
+description
+
+clubcount
+id
+count
+
+awards table
+id
+name
+description
+
+apperance
+club_id
+player-id
+apperances
+
+player_adward
+player_id
+award_id
+
+club_adward
+club_id
+award_id
