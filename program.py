@@ -43,7 +43,6 @@ def homepage():
     sql = "SELECT * FROM Player;"
     cursor.execute(sql)
     results = cursor.fetchall()
-    db.close()
     return render_template("index.html", results=results)
 
 
