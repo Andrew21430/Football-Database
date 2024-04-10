@@ -1,0 +1,8 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h1> Player printin </h1>
+{% for player in results %}
+    {{ player[0] }} {{ player[1] }} {{ player[2] }} {{ player[3] }} {{ player[4] }} {{ player[5] }} {{ player[6] }}
+    <br>
+{% endfor %}
+{% endblock %}

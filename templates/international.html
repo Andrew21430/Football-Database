@@ -1,0 +1,8 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h1> printing out the counties of the world </h1>
+{% for inter in results %}
+    {{ inter[0] }} {{ inter[1] }} {{ inter[2] }} 
+    <br>
+{% endfor %}
+{% endblock %}

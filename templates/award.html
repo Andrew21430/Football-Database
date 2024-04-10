@@ -1,0 +1,8 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h1> printing out all the awards that i dont have :( </h1>
+{% for award in results %}
+    {{ award[0] }} {{ award[1] }} {{ award[2] }} 
+    <br>
+{% endfor %}
+{% endblock %}
