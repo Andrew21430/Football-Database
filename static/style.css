@@ -1,9 +1,35 @@
+/* Sets up Custom font */
+@font-face {
+    font-family: 'Oxygen';
+    /* Imports font from URL */
+    src: url(/static/Fonts/Oxygen/Oxygen/Oxygen-Regular.ttf);
+}
+
+/* Sets up Custom font */
+@font-face {
+    font-family: 'Playfair Display';
+    /* Imports font from URL */
+    src: url(/static/Fonts/Playfair_Display/PlayfairDisplay-VariableFont_wght.ttf);
+}
+
+/* Sets up Custom font */
+@font-face {
+    font-family: 'Kaushan';
+    /* Imports font from URL */
+    src: url(/static/Fonts/Kaushan_Script/KaushanScript-Regular.ttf);
+}
+
 body{
 	color:#0f0f0f;
-	font-family:'Lucida Sans';
+    font-family: 'Oxygen-regular';
 	font-size: 2rem;
 	background-color: rgb(255, 245, 180);
 }
+
+h1,header,h2{
+    font-family: 'Playfair_Display';
+}
+
 
 /* Remove default margin */
 body,
@@ -23,6 +49,9 @@ dd {
 	margin-bottom: 10;
 }
 
+nav{
+    font-family: 'Kaushan';
+}
 
 ul {
     list-style-type: none;
