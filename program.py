@@ -78,7 +78,7 @@ def international():
     sql = "SELECT * FROM International;"
     cursor.execute(sql)
     results = cursor.fetchall()
-    return render_template("international.html")
+    return render_template("international.html", results=results)
 
 @app.route('/award')
 def award():
