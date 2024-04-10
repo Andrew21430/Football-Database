@@ -19,6 +19,11 @@
     src: url(/static/Fonts/Kaushan_Script/KaushanScript-Regular.ttf);
 }
 
+@font-face {
+    font-family: 'Walter-Turncoat';
+    src: url(/static/Fonts/Walter_Turncoat/WalterTurncoat-Regular.ttf);
+}
+
 body{
 	color:#0f0f0f;
     font-family: 'Oxygen-regular';
@@ -30,6 +35,10 @@ h1,header,h2{
     font-family: 'Playfair_Display';
 }
 
+footer{
+    font-size: small;
+    font-family: 'Kaushan';
+}
 
 /* Remove default margin */
 body,
@@ -50,7 +59,7 @@ dd {
 }
 
 nav{
-    font-family: 'Kaushan';
+    font-family: 'Walter-Turncoat';
 }
 
 ul {
