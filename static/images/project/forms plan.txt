@@ -1,0 +1,5 @@
+form:
+
+action is _self 
+the label must give the id number to then use fro printing out
+

@@ -86,3 +86,34 @@ li a {
 li a:hover {
     background-color: #111;
 }
+
+/* Edits hero image */
+.hero-grid {
+
+    display: grid;
+    gap: 1.5rem;
+    padding-bottom: 0.5rem;
+    grid-template-areas:
+        'one';
+    width: 98.5vw;
+}
+
+/* defines the childs the hero grid*/
+.hero-grid:nth-child(1) {
+    grid-area: one
+}
+
+/* places the location of the hero grid */
+.hero-grid {
+    grid-template-areas:
+        "one";
+
+}
+
+/* Sets the size for the Hero image so it fills the correct space */
+.heroimg {
+    width: 98.5vw;
+    height: 40vh;
+    border-radius: 0.5rem;
+    display: block;
+}

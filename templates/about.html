@@ -2,4 +2,11 @@
 {% block content %}
 <h1> On my website the user will be able to find out all players at a club or all the clubs a player has played for. It can also tell you what league that club is in and its current ranking. It will also be able to tell you what awards each player and team has with a description included. It will also be able to tell you the total number of appearances that player has along with their current age. It can also tell you the amount of international trophies each country has won along with what country each player plays for.
 </h1>
+<form action="/action_page.php" target = "blank">
+    <label for="fname">First name:</label><br>
+    <input type="text" id="fname" name="fname" value="John"><br>
+    <label for="lname">Last name:</label><br>
+    <input type="text" id="lname" name="lname" value="Doe"><br><br>
+    <input type="submit" value="Submit">
+  </form>
 {% endblock %}

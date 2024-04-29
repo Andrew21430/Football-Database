@@ -70,6 +70,16 @@ def award():
     results = cursor.fetchall()
     return render_template("award.html", results=results)
 
+@app.route('/club_awards')
+def clubaward():
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor() 
+    # sql statement
+    sql = "SELECT Award.award, Club.club, Club_award.count FROM Club_Award INNER JOIN Award ON Club_Award.award_id = Award.award_id INNER JOIN Club ON Club_Award.club_id = Club.club_id;"
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    return render_template("club_awards.html", results=results)
+
 
 
 if __name__ == "__main__":
