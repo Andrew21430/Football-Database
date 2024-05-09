@@ -117,3 +117,38 @@ li a:hover {
     border-radius: 0.5rem;
     display: block;
 }
+
+
+
+
+
+/* New grid trial for player award formating */
+
+.playeraward-grid{
+    display: grid;
+    gap: 1.5rem;
+    padding: 1rem;
+    grid-template-areas: 
+    'one'
+    'two'
+    'three';
+}
+
+.playeraward-grid:nth-child(1){
+    grid-area: one
+}
+
+.playeraward-grid:nth-child(2){
+    grid-area: two
+}
+
+.playeraward-grid:nth-child(3){
+    grid-area: three
+}
+
+
+.playeraward-grid{
+    grid-template-areas: 
+    'one one '
+    'two three'
+}

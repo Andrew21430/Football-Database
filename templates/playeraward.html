@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% for tropies in results %}
+    <main class=".playerawardgrid">
+        <article class=".playerawardgrid">
+            <h1>{{tropies[0]}}</h1>
+        </article>
+        <article class=".playerawardgrid">
+            <p>{{tropies[1]}}</p>
+        </article>
+        <article class=".playerawardgrid">
+            <p>{{tropies[2]}}</p>
+        </article>
+        <br>
+    </main>
+
+{% endfor %}
+{% endblock %}
