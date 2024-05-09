@@ -13,17 +13,19 @@ DATABASE = "Database.db"
 app = Flask(__name__)
 
 
+def sqlsetup(sql):
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor() 
+    cursor.execute(sql)
+    results = cursor.fetchall()
+    return results
+
 
 @app.route('/')
 
 def homepage():
-    db = sqlite3.connect(DATABASE)
-    cursor = db.cursor() 
-    # sql statement
-    sql = "SELECT * FROM Player;"
-    cursor.execute(sql)
-    results = cursor.fetchall()
-    return render_template("index.html", results=results)
+    return render_template("index.html", results=sqlsetup("SELECT * FROM Player;"))
+
 
 
 @app.route('/about')
@@ -32,64 +34,28 @@ def about():
 
 @app.route('/player')
 def player():
-    db = sqlite3.connect(DATABASE)
-    cursor = db.cursor() 
-    # sql statement
-    sql = "SELECT * FROM Player;"
-    cursor.execute(sql)
-    results = cursor.fetchall()
-    return render_template("player.html", results=results)
+    return render_template("player.html", results=sqlsetup("SELECT * FROM Player;"))
 
 @app.route('/club')
 def club():
-    db = sqlite3.connect(DATABASE)
-    cursor = db.cursor() 
-    # sql statement
-    sql = "SELECT * FROM Club;"
-    cursor.execute(sql)
-    results = cursor.fetchall()
-    return render_template("club.html", results=results)
+    return render_template("club.html", results=sqlsetup("SELECT * FROM Club;"))
 
 @app.route('/international')
 def international():
-    db = sqlite3.connect(DATABASE)
-    cursor = db.cursor() 
-    # sql statement
-    sql = "SELECT * FROM International;"
-    cursor.execute(sql)
-    results = cursor.fetchall()
-    return render_template("international.html", results=results)
+    return render_template("international.html", results=sqlsetup("SELECT * FROM International;"))
 
 @app.route('/award')
 def award():
-    db = sqlite3.connect(DATABASE)
-    cursor = db.cursor() 
-    # sql statement
-    sql = "SELECT * FROM Award;"
-    cursor.execute(sql)
-    results = cursor.fetchall()
-    return render_template("award.html", results=results)
+    return render_template("award.html", results=sqlsetup("SELECT * FROM Award;"))
 
 @app.route('/club_awards')
 def clubaward():
-    db = sqlite3.connect(DATABASE)
-    cursor = db.cursor() 
-    # sql statement
-    sql = "SELECT Award.award, Club.club, Club_award.count FROM Club_Award INNER JOIN Award ON Club_Award.award_id = Award.award_id INNER JOIN Club ON Club_Award.club_id = Club.club_id;"
-    cursor.execute(sql)
-    results = cursor.fetchall()
-    return render_template("club_awards.html", results=results)
+    return render_template("club_awards.html", results=sqlsetup("SELECT Award.award, Club.club, Club_award.count FROM Club_Award INNER JOIN Award ON Club_Award.award_id = Award.award_id INNER JOIN Club ON Club_Award.club_id = Club.club_id;"))
 
 
 @app.route('/playeraward')
 def playeraward():
-    db = sqlite3.connect(DATABASE)
-    cursor = db.cursor() 
-    # sql statement
-    sql = " SELECT Award.award, Player.player, Player_Award.count FROM Player_Award INNER JOIN Award ON Player_Award.award_id = Award.award_id INNER JOIN Player ON Player_Award.player_id = Player.player_id;"
-    cursor.execute(sql)
-    results = cursor.fetchall()
-    return render_template("playeraward.html", results=results)
+    return render_template("playeraward.html", results=sqlsetup("SELECT Award.award, Player.player, Player_Award.count FROM Player_Award INNER JOIN Award ON Player_Award.award_id = Award.award_id INNER JOIN Player ON Player_Award.player_id = Player.player_id;"))
    
 
 if __name__ == "__main__":
