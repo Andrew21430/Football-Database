@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block content %}
 {% for tropies in results %}
-    {{tropies[0]}}  {{tropies[1]}}  {{ tropies[2] }}
+    {{tropies[0]}} <img src=static/images/website/Awards/{{tropies[1]}}> {{tropies[2]}}  {{ tropies[3] }}
     <br>
 
 {% endfor %}
