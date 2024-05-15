@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+{% for league in results %}
+
+{{league[0]}} {{league[1]}} {{league[2]}} {{league[3]}} <br> <img src=static/images/website/Leagues/{{league[4]}}>
+<br>
+
+{% endfor %}
+{% endblock %}

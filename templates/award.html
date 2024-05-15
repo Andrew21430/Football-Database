@@ -2,7 +2,7 @@
 {% block content %}
 <h1> printing out all the awards that i dont have :( </h1>
 {% for award in results %}
-    {{ award[0] }} {{ award[1] }}: <br> {{ award[2] }} 
+    {{ award[0] }} {{ award[1] }}: <br> <img src=static/images/website/Awards/{{award[3]}}> <br> {{ award[2] }} 
     <br>
 {% endfor %}
 {% endblock %}

@@ -38,7 +38,7 @@ def player():
 
 @app.route('/club')
 def club():
-    return render_template("club.html", results=sqlsetup("SELECT * FROM Club;"))
+    return render_template("club.html", results=sqlsetup("SELECT Club.club_id, Club.club, Club.description, League.league FROM Club INNER JOIN League ON Club.league_id = League.League_id;"))
 
 @app.route('/international')
 def international():
@@ -57,6 +57,11 @@ def clubaward():
 def playeraward():
     return render_template("playeraward.html", results=sqlsetup("SELECT Award.award,  Award.award_photo, Player.player, Player_Award.count FROM Player_Award INNER JOIN Award ON Player_Award.award_id = Award.award_id INNER JOIN Player ON Player_Award.player_id = Player.player_id;"))
    
+
+@app.route('/league')
+def league():
+    return render_template("league.html", results=sqlsetup("SELECT * From League;"))
+
 
 if __name__ == "__main__":
     app.run(debug=True)
