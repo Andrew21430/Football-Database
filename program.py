@@ -63,5 +63,43 @@ def league():
     return render_template("league.html", results=sqlsetup("SELECT * From League;"))
 
 
+@app.route('/triangle/up/right/<int:size>')
+def triangle(size):
+    row = []
+    for i in range(0,size+1):
+        spaces = size - i
+        line = ' '*spaces + '*'*i
+        row.append(line)
+    return render_template('triangle.html',row=row, size=size)
+
+@app.route('/triangle/up/left/<int:size>')
+def triangle_up_left(size):
+    row = []
+    for i in range(0,size+1):
+        spaces = size - i
+        line = '*'*i + ' '*spaces
+        row.append(line)
+    return render_template('triangle.html',row=row, size=size)
+
+@app.route('/triangle/down/right/<int:size>')
+def triangle_down_right(size):
+    row = []
+    for i in range(0,size+1):
+        spaces = size - i
+        line = ' '*i + '*'*spaces
+        row.append(line)
+    return render_template('triangle.html',row=row, size=size)
+
+
+@app.route('/triangle/down/left/<int:size>')
+def triangle_down_left(size):
+    row = []
+    for i in range(0,size+1):
+        spaces = size - i
+        line = '*'*spaces + ' '*i
+        row.append(line)
+    return render_template('triangle.html',row=row, size=size)
+
+
 if __name__ == "__main__":
     app.run(debug=True)

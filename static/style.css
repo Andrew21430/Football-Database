@@ -119,7 +119,12 @@ li a:hover {
 }
 
 
-
+.playerawardimg{
+    width: 360px;
+    height:  450px;
+    border-radius: 0.5rem;
+    display: block;
+}
 
 
 /* New grid trial for player award formating */
@@ -131,7 +136,8 @@ li a:hover {
     grid-template-areas: 
     'one'
     'two'
-    'three';
+    'three'
+    'four';
 }
 
 .playeraward-grid:nth-child(1){
@@ -146,9 +152,15 @@ li a:hover {
     grid-area: three
 }
 
+.playeraward-grid:nth-child(4){
+    grid-area: four
+}
 
-.playeraward-grid{
-    grid-template-areas: 
-    'one one '
-    'two three'
+@media (min-width:50em) {
+    .playeraward-grid{
+        grid-template-areas: 
+        'one one one'
+        'three two four'
+    }
+    
 }

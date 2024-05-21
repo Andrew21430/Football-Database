@@ -1,18 +1,23 @@
 {% extends 'layout.html' %}
 {% block content %}
 {% for tropies in results %}
-    <main class=".playerawardgrid">
-        <article class=".playerawardgrid">
-            <h1>{{tropies[0]}}</h1>
+    <main class="playeraward-grid">
+        <article class="playeraward-grid">
+            <div>
+                <h1>{{tropies[0]}}</h1></div>
         </article>
-        <article class=".playerawardgrid">
-            <img src=static/images/website/Awards/{{tropies[1]}}>
+        <article class="playeraward-grid">
+            <img class="playerawardimg" src=static/images/website/Awards/{{tropies[1]}}>
         </article>
-        <article class=".playerawardgrid">
-            <p>{{tropies[2]}}</p>
+        <article class="playeraward-grid">
+            <div>
+                <p>{{tropies[2]}}</p>
+            </div>
         </article>
-        <article class=".playerawardgrid">
-            <p>{{tropies[3]}}</p>
+        <article class="playeraward-grid">
+            <div>
+                <p>{{tropies[3]}}</p>
+            </div>
         </article>
         <br>
     </main>
