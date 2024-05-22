@@ -100,6 +100,28 @@ def triangle_down_left(size):
         row.append(line)
     return render_template('triangle.html',row=row, size=size)
 
+@app.route('/diamond/hollow/<int:size>')
+def Hollow_diamond(size):
+    row = []
+    increase = 0
+    for i in range(1,size+1):
+        increase = increase - i
+        spaces = size - i
+        if i == 1:
+            row.append(' '*spaces +'*'+ ' '*spaces)
+        else:
+            line = ' '*spaces + '*' + ' '*(((i-1)*2)-1) + '*' + ' '*spaces
+            row.append(line)
+            if i == size:
+                for x in range(1 ,i):
+                    spaces = size - (i-x)
+                    if x == i-1:
+                        row.append(' '*spaces + '*')
+                    else:
+                        line = ' '*spaces + '*' + ' '*((((i-x)-1)*2)-1) + '*'
+                        row.append(line)
+    length = len(row)
+    return render_template('diamond.html',row=row,length=length)
 
 if __name__ == "__main__":
     app.run(debug=True)
