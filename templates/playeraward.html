@@ -1,8 +1,9 @@
 {% extends 'layout.html' %}
 {% block content %}
+{% set number = 0 %}
 <main class="playeraward-grid">
     {% for tropies in results %}
-        {%- if last == tropies[0] -%}
+        {%- if number == tropies[0] -%}
             <article class="playeraward-grid">
                 <div>
                     <p>{{tropies[2]}}</p>
@@ -13,9 +14,9 @@
                     <p>{{tropies[3]}}</p>
                 </div>
             </article>
-            {% set last = tropies[0] %}
+            {%- set number = tropies[0] %}
         {% endif %}
-        {%- if last != tropies[0] -%}
+        {%- if number != tropies[0] -%}
             <article class="playeraward-grid">
                 <div>
                     <h1>{{tropies[0]}}</h1></div>
@@ -33,7 +34,7 @@
                     <p>{{tropies[3]}}</p>
                 </div>
             </article>
-            {% set last = tropies[0] %}
+            {%- set number = tropies[0] %}
         {% endif %}    
 
 

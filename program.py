@@ -121,7 +121,8 @@ def Hollow_diamond(size):
                         line = ' '*spaces + '*' + ' '*((((i-x)-1)*2)-1) + '*'
                         row.append(line)
     length = len(row)
-    return render_template('diamond.html',row=row,length=length)
+    number = 0
+    return render_template('diamond.html',row=row,length=length,number=number)
 
 if __name__ == "__main__":
     app.run(debug=True)
