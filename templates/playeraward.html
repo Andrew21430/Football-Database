@@ -1,26 +1,42 @@
 {% extends 'layout.html' %}
 {% block content %}
-{% for tropies in results %}
-    <main class="playeraward-grid">
-        <article class="playeraward-grid">
-            <div>
-                <h1>{{tropies[0]}}</h1></div>
-        </article>
-        <article class="playeraward-grid">
-            <img class="playerawardimg" src=static/images/website/Awards/{{tropies[1]}}>
-        </article>
-        <article class="playeraward-grid">
-            <div>
-                <p>{{tropies[2]}}</p>
-            </div>
-        </article>
-        <article class="playeraward-grid">
-            <div>
-                <p>{{tropies[3]}}</p>
-            </div>
-        </article>
-        <br>
-    </main>
+<main class="playeraward-grid">
+    {% for tropies in results %}
+        {%- if last == tropies[0] -%}
+            <article class="playeraward-grid">
+                <div>
+                    <p>{{tropies[2]}}</p>
+                </div>
+            </article>
+            <article class="playeraward-grid">
+                <div>
+                    <p>{{tropies[3]}}</p>
+                </div>
+            </article>
+            {% set last = tropies[0] %}
+        {% endif %}
+        {%- if last != tropies[0] -%}
+            <article class="playeraward-grid">
+                <div>
+                    <h1>{{tropies[0]}}</h1></div>
+            </article>
+            <article class="playeraward-grid">
+                <img class="playerawardimg" src=static/images/website/Awards/{{tropies[1]}}>
+            </article>
+            <article class="playeraward-grid">
+                <div>
+                    <p>{{tropies[2]}}</p>
+                </div>
+            </article>
+            <article class="playeraward-grid">
+                <div>
+                    <p>{{tropies[3]}}</p>
+                </div>
+            </article>
+            {% set last = tropies[0] %}
+        {% endif %}    
 
-{% endfor %}
+
+    {% endfor %}
 {% endblock %}
+</main>

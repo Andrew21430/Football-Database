@@ -1,8 +1,26 @@
 {% extends 'layout.html' %}
 {% block content %}
-<h1> printing out all the awards that i dont have :( </h1>
-{% for award in results %}
-    {{ award[0] }} {{ award[1] }}: <br> <img src=static/images/website/Awards/{{award[3]}}> <br> {{ award[2] }} 
-    <br>
+<main class="award-grid">
+    {% for tropies in results %}
+        <article class="award-grid">
+            <div>
+                <h1>{{tropies[0]}}</h1></div>
+        </article>
+        <article class="award-grid">
+            <img class="awardimg" src=static/images/website/Awards/{{tropies[3]}}>
+        </article>
+        <article class="award-grid">
+            <div>
+                <p>{{tropies[1]}}</p>
+            </div>
+        </article>
+        <article class="award-grid">
+            <div>
+                <p>{{tropies[2]}}</p>
+            </div>
+        </article>
+
+
 {% endfor %}
 {% endblock %}
+</main>
