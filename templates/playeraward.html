@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 {% block content %}
-{% set number = 0 %}
+{% set number = 10 %}
 <main class="playeraward-grid">
     {% for tropies in results %}
         {%- if number == tropies[0] -%}
@@ -14,7 +14,7 @@
                     <p>{{tropies[3]}} {{number}}</p>
                 </div>
             </article>
-            {%- set number = tropies[0] %}
+            {% set number = 13 %}
         {% endif %}
         {%- if number != tropies[0] -%}
             <article class="playeraward-grid">
@@ -34,7 +34,7 @@
                     <p>{{tropies[3]}} {{number}}</p>
                 </div>
             </article>
-            {%- set number = tropies[0] %}
+            {% set number = 12 %}
         {% endif %}    
 
 
