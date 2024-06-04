@@ -55,7 +55,8 @@ def clubaward():
 
 @app.route('/playeraward')
 def playeraward():
-    return render_template("playeraward.html", results=sqlsetup("SELECT Award.award,  Award.award_photo, Player.player, Player_Award.count FROM Player_Award INNER JOIN Award ON Player_Award.award_id = Award.award_id INNER JOIN Player ON Player_Award.player_id = Player.player_id ORDER BY Player_Award.award_id ASC;"))
+    seen = ['test']
+    return render_template("playeraward.html",seen=seen, results=sqlsetup("SELECT Award.award,  Award.award_photo, Player.player, Player_Award.count FROM Player_Award INNER JOIN Award ON Player_Award.award_id = Award.award_id INNER JOIN Player ON Player_Award.player_id = Player.player_id ORDER BY Player_Award.award_id ASC, Player_Award.count DESC;"))
    
 
 @app.route('/league')
@@ -121,8 +122,8 @@ def Hollow_diamond(size):
                         line = ' '*spaces + '*' + ' '*((((i-x)-1)*2)-1) + '*'
                         row.append(line)
     length = len(row)
-    number = 0
-    return render_template('diamond.html',row=row,length=length,number=number)
+    
+    return render_template('diamond.html',row=row,length=length,)
 
 if __name__ == "__main__":
     app.run(debug=True)
