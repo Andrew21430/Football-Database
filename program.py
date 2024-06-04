@@ -50,7 +50,8 @@ def award():
 
 @app.route('/club_awards')
 def clubaward():
-    return render_template("club_awards.html", results=sqlsetup("SELECT Award.award, Award.award_photo, Club.club, Club_award.count FROM Club_Award INNER JOIN Award ON Club_Award.award_id = Award.award_id INNER JOIN Club ON Club_Award.club_id = Club.club_id;"))
+    seen = ['test']
+    return render_template("club_awards.html", seen=seen,results=sqlsetup("SELECT Award.award, Award.award_photo, Club.club, Club_award.count FROM Club_Award INNER JOIN Award ON Club_Award.award_id = Award.award_id INNER JOIN Club ON Club_Award.club_id = Club.club_id ORDER BY Club_Award.award_id ASC, Club_Award.count DESC;"))
 
 
 @app.route('/playeraward')

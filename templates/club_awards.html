@@ -1,8 +1,40 @@
 {% extends 'layout.html' %}
 {% block content %}
-{% for tropies in results %}
-    {{tropies[0]}} <img src=static/images/website/Awards/{{tropies[1]}}> {{tropies[2]}}  {{ tropies[3] }}
-    <br>
+{% set seen= ['no']%}
+<main class="clubaward-grid">
+    {% for tropies in results %}
+        {%- if seen[-1] == tropies[0] -%}
+            <article class="clubaward-grid">
+                <div>
+                    <p>{{tropies[2]}}</p>
+                </div>
+            </article>
+            <article class="clubaward-grid">
+                <div>
+                    <p>{{tropies[3]}}</p>
+                </div>
+            </article>
+        {% else %}
+            <article class="clubaward-grid">
+                <div>
+                    <h1>{{tropies[0]}} </h1></div>
+            </article>
+            <article class="clubaward-grid">
+                <img class="clubawardimg" src=static/images/website/Awards/{{tropies[1]}}>
+            </article>
+            <article class="clubaward-grid">
+                <div>
+                    <p>{{tropies[2]}}</p>
+                </div>
+            </article>
+            <article class="clubaward-grid">
+                <div>
+                    <p>{{tropies[3]}} </p>
+                </div>
+            </article>
+            {%- set seen = seen.append(tropies[0]) %}
+        {% endif %}    
 
-{% endfor %}
+    {% endfor %}
+</main>
 {% endblock %}

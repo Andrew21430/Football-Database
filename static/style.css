@@ -129,7 +129,12 @@ li a:hover {
     border-radius: 0.5rem;
     display: block;
 }
-
+.clubawardimg{
+    width: 360px;
+    height:  450px;
+    border-radius: 0.5rem;
+    display: block;
+}
 
 /* New grid trial for player award formating */
 
@@ -141,6 +146,13 @@ li a:hover {
         repeat(2, 1fr)
 }
 
+.clubaward-grid{
+    display: grid;
+    gap: 1.5rem;
+    padding: 1rem;
+    grid-template-columns: 
+        repeat(2, 1fr)
+}
 
 .award-grid{
     display: grid;
