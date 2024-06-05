@@ -1,5 +1,15 @@
 {% extends 'layout.html' %}
 {% block content %}
+<main>
+    <form action="/action_page.php">
+        <label for="tropies">Choose a trophy(s):</label>
+        <select id="tropies" name="tropies" size="10" multiple>
+            {%- for tropies in results -%}
+                <option value="{{tropies[1]}}">{{tropies[1]}}</option>
+            {%- endfor -%}
+        </select><br><br>
+        <input type="submit">
+        </form>
 <main class="award-grid">
     {% for tropies in results %}
         <article class="award-grid">
@@ -22,5 +32,8 @@
 
 
 {% endfor %}
+</main>
+
+
 {% endblock %}
 </main>
