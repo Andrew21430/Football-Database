@@ -51,13 +51,13 @@ def award():
 @app.route('/club_awards')
 def clubaward():
     seen = ['test']
-    return render_template("club_awards.html", seen=seen,results=sqlsetup("SELECT Award.award, Award.award_photo, Club.club, Club_award.count FROM Club_Award INNER JOIN Award ON Club_Award.award_id = Award.award_id INNER JOIN Club ON Club_Award.club_id = Club.club_id ORDER BY Club_Award.award_id ASC, Club_Award.count DESC;"))
+    return render_template("club_awards.html", seen=seen,results=sqlsetup("SELECT Award.award, Award.award_photo, Club.club, Club_award.count FROM Club_Award INNER JOIN Award ON Club_Award.award_id = Award.award_id INNER JOIN Club ON Club_Award.club_id = Club.club_id ORDER BY Club_Award.award_id ASC, Club_Award.count DESC, Club.club ASC;"))
 
 
 @app.route('/playeraward')
 def playeraward():
     seen = ['test']
-    return render_template("playeraward.html",seen=seen, results=sqlsetup("SELECT Award.award,  Award.award_photo, Player.player, Player_Award.count FROM Player_Award INNER JOIN Award ON Player_Award.award_id = Award.award_id INNER JOIN Player ON Player_Award.player_id = Player.player_id ORDER BY Player_Award.award_id ASC, Player_Award.count DESC;"))
+    return render_template("playeraward.html",seen=seen, results=sqlsetup("SELECT Award.award,  Award.award_photo, Player.player, Player_Award.count FROM Player_Award INNER JOIN Award ON Player_Award.award_id = Award.award_id INNER JOIN Player ON Player_Award.player_id = Player.player_id ORDER BY Player_Award.award_id ASC, Player_Award.count DESC, Player.player ASC;"))
    
 
 @app.route('/league')
@@ -125,6 +125,16 @@ def Hollow_diamond(size):
     length = len(row)
     
     return render_template('diamond.html',row=row,length=length,)
+
+
+@app.route('/award/<int:trophy>')
+def one_award():
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor() 
+    cursor.execute("SELECT * FROM Award;")
+    results = cursor.fetchall()
+    return render_template("award.html", results=results)
+
 
 if __name__ == "__main__":
     app.run(debug=True)

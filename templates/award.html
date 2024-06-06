@@ -1,11 +1,11 @@
 {% extends 'layout.html' %}
 {% block content %}
 <main>
-    <form action="/action_page.php">
+    <form action="/award/">
         <label for="tropies">Choose a trophy(s):</label>
         <select id="tropies" name="tropies" size="10" multiple>
             {%- for tropies in results -%}
-                <option value="{{tropies[1]}}">{{tropies[1]}}</option>
+                <option value="{{tropies[0]}}">{{tropies[1]}}</option>
             {%- endfor -%}
         </select><br><br>
         <input type="submit">
