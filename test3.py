@@ -4,6 +4,8 @@ def one_award(trophy):
     print(str(test))
     fixedtest = "".join(test)
     singletest= list(fixedtest)
+    for i in range(0,10):
+        singletest.pop(0)
     print(singletest)
     print(singletest[-1])
 
