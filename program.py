@@ -62,7 +62,8 @@ def playeraward():
 
 @app.route('/league')
 def league():
-    return render_template("league.html", results=sqlsetup("SELECT * From League;"))
+    seen = ['test']
+    return render_template("league.html", seen=seen, results=sqlsetup("SELECT * From League;"))
 
 
 @app.route('/triangle/up/right/<int:size>')
@@ -127,11 +128,16 @@ def Hollow_diamond(size):
     return render_template('diamond.html',row=row,length=length,)
 
 
-@app.route('/award/<int:trophy>')
-def one_award():
+@app.route('/award/<trophy>')
+def one_award(trophy):
+    print(str(trophy))
+    test=filter(str.isdecimal,str(trophy))
+    print(str(test))
+    fixedtest = "".join(test)
+    singletest= list(fixedtest)
     db = sqlite3.connect(DATABASE)
     cursor = db.cursor() 
-    cursor.execute("SELECT * FROM Award;")
+    cursor.execute("SELECT * FROM Award WHERE award_id =?",(singletest[-1],))
     results = cursor.fetchall()
     return render_template("award.html", results=results)
 

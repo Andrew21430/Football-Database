@@ -167,6 +167,14 @@ li a:hover {
         repeat(2, 1fr)
 }
 
+.league-grid{
+    display: grid;
+    gap: 1.5rem;
+    padding: 1rem;
+    grid-template-columns: 
+        repeat(4, 1fr)
+}
+
 .award-grid{
     display: grid;
     gap: 1.5rem;
