@@ -44,9 +44,9 @@ def club():
 def international():
     return render_template("international.html", results=sqlsetup("SELECT * FROM International;"))
 
-@app.route('/award')
-def award():
-    return render_template("award.html", results=sqlsetup("SELECT * FROM Award;"))
+#@app.route('/award')
+#def award():
+ #   return render_template("award.html", results=sqlsetup("SELECT * FROM Award;"))
 
 @app.route('/club_awards')
 def clubaward():
@@ -128,18 +128,33 @@ def Hollow_diamond(size):
     return render_template('diamond.html',row=row,length=length,)
 
 
-@app.route('/award/<trophy>')
-def one_award(trophy):
-    print(str(trophy))
-    test=filter(str.isdecimal,str(trophy))
-    print(str(test))
-    fixedtest = "".join(test)
-    singletest= list(fixedtest)
-    db = sqlite3.connect(DATABASE)
-    cursor = db.cursor() 
-    cursor.execute("SELECT * FROM Award WHERE award_id =?",(singletest[-1],))
-    results = cursor.fetchall()
-    return render_template("award.html", results=results)
+@app.route('/award')
+def award():
+    trophy = request.args.get('tropies') 
+    if trophy == None:
+        db = sqlite3.connect(DATABASE)
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM Award")
+        newlist = cursor.fetchall()
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM Award")
+        results = cursor.fetchall()
+        return render_template("award.html", results=results, newlist=newlist)
+    else:
+        splittrophy = trophy.split("&")
+        for i in range(0,len(splittrophy)):
+            splittrophy[i] = filter(str.isdecimal,str(splittrophy[i]))
+            splittrophy[i] = "".join(splittrophy[i])
+        db = sqlite3.connect(DATABASE)
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM Award")
+        newlist = cursor.fetchall()
+        cursor = db.cursor()
+        results =[]
+        for i in range(0,len(splittrophy)):
+            cursor.execute("SELECT * FROM Award WHERE award_id =?",(splittrophy[i],))
+            results.extend(cursor.fetchall())
+        return render_template("award.html", results=results, newlist=newlist)
 
 
 if __name__ == "__main__":

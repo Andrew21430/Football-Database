@@ -24,3 +24,6 @@ def Hollow_diamond(size):
 for i in range(0,len(Hollow_diamond(10))):
     print(Hollow_diamond(10)[i])
 
+    test=filter(str.isdecimal,str(trophy))
+    fixedtest = "".join(test)
+    singletest= list(fixedtest)

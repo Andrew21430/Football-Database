@@ -1,10 +1,10 @@
 {% extends 'layout.html' %}
 {% block content %}
 <main>
-    <form action="/award/">
+    <form action="/award">
         <label for="tropies">Choose a trophy(s):</label>
         <select id="tropies" name="tropies" size="10" multiple>
-            {%- for tropies in results -%}
+            {%- for tropies in newlist -%}
                 <option value="{{tropies[0]}}">{{tropies[1]}}</option>
             {%- endfor -%}
         </select><br><br>
