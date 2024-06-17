@@ -130,7 +130,8 @@ def Hollow_diamond(size):
 
 @app.route('/award')
 def award():
-    trophy = request.args.get('tropies') 
+    trophy = request.form.get('tropies') 
+    print(trophy)
     if trophy == None:
         db = sqlite3.connect(DATABASE)
         cursor = db.cursor()
@@ -141,6 +142,7 @@ def award():
         results = cursor.fetchall()
         return render_template("award.html", results=results, newlist=newlist)
     else:
+        print(trophy)
         splittrophy = trophy.split("&")
         for i in range(0,len(splittrophy)):
             splittrophy[i] = filter(str.isdecimal,str(splittrophy[i]))
@@ -150,11 +152,12 @@ def award():
         cursor.execute("SELECT * FROM Award")
         newlist = cursor.fetchall()
         cursor = db.cursor()
-        results =[]
+        results = []
         for i in range(0,len(splittrophy)):
             cursor.execute("SELECT * FROM Award WHERE award_id =?",(splittrophy[i],))
-            results.extend(cursor.fetchall())
-        return render_template("award.html", results=results, newlist=newlist)
+            add = cursor.fetchall()
+            results.extend(add)
+        return render_template("award.html", results=results, newlist=newlist, size=len(results))
 
 
 if __name__ == "__main__":
