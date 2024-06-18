@@ -180,9 +180,8 @@ li a:hover {
     gap: 1.5rem;
     padding: 1rem;
     grid-template-columns: 
-        250px 1fr 1fr 1fr;
+         1fr 1fr 1fr;
 }
-
 
 .awardimg{
     width: 360px;
@@ -190,6 +189,22 @@ li a:hover {
     border-radius: 0.5rem;
     display: block;
 }
+
+.international-grid{
+    display: grid;
+    gap: 1.5rem;
+    padding: 1rem;
+    grid-template-columns: 
+         1fr 1fr 1fr;
+}
+
+.internationalimg{
+    width: 360px;
+    height:  450px;
+    border-radius: 0.5rem;
+    display: block;
+}
+
 /*
 .playeraward-grid:nth-child(1){
     grid-area: one

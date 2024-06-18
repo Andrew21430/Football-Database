@@ -1,8 +1,21 @@
 {% extends 'layout.html' %}
 {% block content %}
-<h1> printing out the counties of the world </h1>
-{% for inter in results %}
-    {{ inter[0] }} {{ inter[1] }} {{ inter[2] }} 
-    <br>
-{% endfor %}
+
+<main class="international-grid">
+    {% for inter in results %}
+        <article class="international-grid">
+            <div>
+                <p>{{inter[1]}}</p>
+            </div>
+        </article>
+            <article class="international-grid">
+                <img class="internationalimg" src=static/images/website/Flags/{{inter[3]}}>
+            </article>
+            <article class="international-grid">
+                <div>
+                    <p>{{inter[2]}}</p>
+                </div>
+            </article>
+            
+    {% endfor %}
 {% endblock %}

@@ -1,10 +1,10 @@
 {% extends 'layout.html' %}
 {% block content %}
 <main>
-    <form action="/award">
+    <form action="/award" method="post">
         <label for="tropies">Choose a trophy(s):</label>
         <select id="tropies" name="tropies" size="10" multiple>
-            {%- for tropies in newlist -%}
+            {%- for tropies in fulllist -%}
                 <option value="{{tropies[0]}}">{{tropies[1]}}</option>
             {%- endfor -%}
         </select><br><br>
@@ -12,27 +12,20 @@
         </form>
 <main class="award-grid">
     {% for tropies in results %}
-        <article class="award-grid">
-            <div>
-                <h1>{{tropies[0]}}</h1></div>
-        </article>
+    <article class="award-grid">
+        <div>
+            <p>{{tropies[1]}}</p>
+        </div>
+    </article>
         <article class="award-grid">
             <img class="awardimg" src=static/images/website/Awards/{{tropies[3]}}>
-        </article>
-        <article class="award-grid">
-            <div>
-                <p>{{tropies[1]}}</p>
-            </div>
         </article>
         <article class="award-grid">
             <div>
                 <p>{{tropies[2]}}</p>
             </div>
         </article>
-    
     {% endfor %}
 </main>
-
-
 {% endblock %}
 </main>

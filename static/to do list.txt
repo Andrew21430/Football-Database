@@ -1,0 +1,14 @@
+pages that need grid updates:
+Players
+Clubs
+International
+
+Pages that need a search box
+Players
+clubs
+international
+Leagues
+
+Pages that need two search boxes
+club awards 
+player awards

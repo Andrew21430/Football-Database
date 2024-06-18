@@ -128,20 +128,11 @@ def Hollow_diamond(size):
     return render_template('diamond.html',row=row,length=length,)
 
 
-@app.route('/award')
+@app.route('/award', methods=['GET', 'POST'])
 def award():
-    trophy = request.form.get('tropies') 
+    trophy=str(request.get_data('trophies'))
     print(trophy)
-    if trophy == None:
-        db = sqlite3.connect(DATABASE)
-        cursor = db.cursor()
-        cursor.execute("SELECT * FROM Award")
-        newlist = cursor.fetchall()
-        cursor = db.cursor()
-        cursor.execute("SELECT * FROM Award")
-        results = cursor.fetchall()
-        return render_template("award.html", results=results, newlist=newlist)
-    else:
+    if request.method == 'POST':
         print(trophy)
         splittrophy = trophy.split("&")
         for i in range(0,len(splittrophy)):
@@ -150,14 +141,23 @@ def award():
         db = sqlite3.connect(DATABASE)
         cursor = db.cursor()
         cursor.execute("SELECT * FROM Award")
-        newlist = cursor.fetchall()
+        fulllist = cursor.fetchall()
         cursor = db.cursor()
         results = []
         for i in range(0,len(splittrophy)):
             cursor.execute("SELECT * FROM Award WHERE award_id =?",(splittrophy[i],))
             add = cursor.fetchall()
             results.extend(add)
-        return render_template("award.html", results=results, newlist=newlist, size=len(results))
+        return render_template("award.html", results=results, fulllist=fulllist, size=len(results))
+    else:    
+        db = sqlite3.connect(DATABASE)
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM Award")
+        fulllist = cursor.fetchall()
+        cursor = db.cursor()
+        cursor.execute("SELECT * FROM Award")
+        results = cursor.fetchall()
+        return render_template("award.html", results=results, fulllist=fulllist)
 
 
 if __name__ == "__main__":
