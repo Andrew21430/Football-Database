@@ -28,7 +28,7 @@ body{
 	color:#0f0f0f;
     font-family: 'Oxygen-regular';
 	font-size: 2rem;
-	background-color: rgb(255, 245, 180);
+	background-color: rgb(191, 247, 174);
 }
 
 h1,header,h2{
@@ -199,12 +199,56 @@ li a:hover {
 }
 
 .internationalimg{
-    width: 360px;
-    height:  450px;
+    width: 300px;
+    height:  200px;
     border-radius: 0.5rem;
     display: block;
 }
 
+.league-grid{
+    display: grid;
+    gap: 1.5rem;
+    padding: 1rem;
+    grid-template-columns: 
+         50px 1fr 1fr 1fr;
+}
+
+.leagueimg{
+    width: 450px;
+    height:  300px;
+    border-radius: 0.5rem;
+    display: block;
+}
+
+.club-grid{
+    display: grid;
+    gap: 1.5rem;
+    padding: 1rem;
+    grid-template-columns: 
+         1fr 1fr 1fr 1fr;
+}
+
+.clubimg{
+    width: 300px;
+    height:  200px;
+    border-radius: 0.5rem;
+    display: block;
+}
+
+.player-grid{
+    display: grid;
+    gap: 1.5rem;
+    padding: 1rem;
+    grid-template-columns: 
+         repeat(6,1fr) ;
+}
+
+.playerimg{
+    width: 300px;
+    height:  200px;
+    border-radius: 0.5rem;
+    display: block;
+}
 /*
 .playeraward-grid:nth-child(1){
     grid-area: one

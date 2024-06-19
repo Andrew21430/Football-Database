@@ -3,18 +3,14 @@
 
 <main class="international-grid">
     {% for inter in results %}
-        <article class="international-grid">
-            <div>
+        <article >
                 <p>{{inter[1]}}</p>
-            </div>
         </article>
-            <article class="international-grid">
-                <img class="internationalimg" src=static/images/website/Flags/{{inter[3]}}>
+            <article>
+                <img class="internationalimg" src=static/images/website/Flags/{{inter[3]}}.png>
             </article>
-            <article class="international-grid">
-                <div>
+            <article >
                     <p>{{inter[2]}}</p>
-                </div>
             </article>
             
     {% endfor %}

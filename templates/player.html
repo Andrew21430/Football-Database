@@ -1,8 +1,17 @@
 {% extends 'layout.html' %}
 {% block content %}
-<h1> Player printin </h1>
-{% for player in results %}
-    {{ player[0] }} {{ player[1] }} {{ player[2] }} {{ player[3] }} {{ player[4] }} {{ player[5] }} {{ player[6] }}
-    <br>
-{% endfor %}
+
+<main class="player-grid">
+    {% for player in results %}
+        <article >
+                <p>{{player[1]}}</p>
+        </article>
+            <article >
+                    <p>{{player[2]}}</p>
+            </article>
+            <article >
+                <p>{{player[3]}}</p>
+            </article>
+            
+    {% endfor %}
 {% endblock %}
