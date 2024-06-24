@@ -140,24 +140,14 @@ def award():
             splittrophy[i] = "".join(splittrophy[i])
         db = sqlite3.connect(DATABASE)
         cursor = db.cursor()
-        cursor.execute("SELECT * FROM Award")
-        fulllist = cursor.fetchall()
-        cursor = db.cursor()
         results = []
         for i in range(0,len(splittrophy)):
             cursor.execute("SELECT * FROM Award WHERE award_id =?",(splittrophy[i],))
             add = cursor.fetchall()
             results.extend(add)
-        return render_template("award.html", results=results, fulllist=fulllist, size=len(results))
+        return render_template("award.html", results=results, fulllist=sqlsetup("SELECT * FROM Award"), size=len(results))
     else:    
-        db = sqlite3.connect(DATABASE)
-        cursor = db.cursor()
-        cursor.execute("SELECT * FROM Award")
-        fulllist = cursor.fetchall()
-        cursor = db.cursor()
-        cursor.execute("SELECT * FROM Award")
-        results = cursor.fetchall()
-        return render_template("award.html", results=results, fulllist=fulllist)
+        return render_template("award.html", results=sqlsetup("SELECT * FROM Award"), fulllist=sqlsetup("SELECT * FROM Award"))
 
 @app.route('/playerclubs')
 def playerclubs():
