@@ -34,11 +34,11 @@ def about():
 
 @app.route('/player')
 def player():
-    return render_template("player.html", results=sqlsetup("SELECT * FROM Player;"))
+    return render_template("player.html", results=sqlsetup("SELECT Player.player, Club.club, Player.total_apperances, International.country, Player.photo FROM Player INNER JOIN Club ON Player.club_id = Club.club_id INNER JOIN International ON Player.international_id = International.international_id;"))
 
 @app.route('/club')
 def club():
-    return render_template("club.html", results=sqlsetup("SELECT Club.club_id, Club.club, Club.description, League.league FROM Club INNER JOIN League ON Club.league_id = League.League_id;"))
+    return render_template("club.html", results=sqlsetup("SELECT Club.club_id, Club.club, Club.description, League.league, Club.emblem FROM Club INNER JOIN League ON Club.league_id = League.League_id;"))
 
 @app.route('/international')
 def international():
@@ -159,6 +159,10 @@ def award():
         results = cursor.fetchall()
         return render_template("award.html", results=results, fulllist=fulllist)
 
+@app.route('/playerclubs')
+def playerclubs():
+    seen = ['test']
+    return render_template("playerclubs.html", seen=seen, results=sqlsetup("SELECT Club.club, Club.emblem, Player.player, Player.photo From past_player_club INNER JOIN Club on past_player_club.club_id = Club.club_id INNER JOIN Player ON past_player_club.player_id = Player.player_id ORDER BY Club.club_id ASC;"))    
 
 if __name__ == "__main__":
     app.run(debug=True)

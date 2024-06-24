@@ -2,16 +2,23 @@
 {% block content %}
 
 <main class="player-grid">
-    {% for player in results %}
+    {%- for player in results -%}
         <article >
-                <p>{{player[1]}}</p>
+                <p>{{player[0]}}</p>
         </article>
             <article >
-                    <p>{{player[2]}}</p>
+                    <p>{{player[1]}}</p>
+            </article>
+            <article>
+                <img class="playerimg" src=static/images/website/player/{{-player[4]-}}.png>
+            </article>
+            <article>
+                <p>{{player[2]}}</p>
             </article>
             <article >
                 <p>{{player[3]}}</p>
             </article>
-            
-    {% endfor %}
+
+
+    {%- endfor -%}
 {% endblock %}
