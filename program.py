@@ -45,7 +45,7 @@ def player():
         cursor = db.cursor()
         results = []
         for i in range(0,len(splitplayer)):
-            cursor.execute("SELECT Player.player, Club.club, Player.total_apperances, International.country, Player.photo, Player.player_id FROM Player INNER JOIN Club ON Player.club_id = Club.club_id INNER JOIN International ON Player.international_id = International.international_id; WHERE Player.player_id =?",(splitplayer[i],))
+            cursor.execute("SELECT Player.player, Club.club, Player.total_apperances, International.country, Player.photo, Player.player_id FROM Player INNER JOIN Club ON Player.club_id = Club.club_id INNER JOIN International ON Player.international_id = International.international_id WHERE Player.player_id =?",(splitplayer[i],))
             add = cursor.fetchall()
             results.extend(add)
         return render_template("player.html", results=results, fulllist=sqlsetup("SELECT Player.player, Club.club, Player.total_apperances, International.country, Player.photo, Player.player_id FROM Player INNER JOIN Club ON Player.club_id = Club.club_id INNER JOIN International ON Player.international_id = International.international_id;"), size=len(results))
@@ -168,7 +168,7 @@ def award():
 @app.route('/playerclubs')
 def playerclubs():
     seen = ['test']
-    return render_template("playerclubs.html", seen=seen, results=sqlsetup("SELECT Club.club, Club.emblem, Player.player, Player.photo From past_player_club INNER JOIN Club on past_player_club.club_id = Club.club_id INNER JOIN Player ON past_player_club.player_id = Player.player_id ORDER BY Club.club ASC;"))    
+    return render_template("playerclubs.html", seen=seen, results=sqlsetup("SELECT Club.club, Club.emblem, Player.player, Player.photo, past_player_club.apperances From past_player_club INNER JOIN Club on past_player_club.club_id = Club.club_id INNER JOIN Player ON past_player_club.player_id = Player.player_id ORDER BY Club.club ASC;"))    
 
 if __name__ == "__main__":
     app.run(debug=True)

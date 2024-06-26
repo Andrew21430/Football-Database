@@ -258,7 +258,11 @@ li a:hover {
     gap: 1.5rem;
     padding: 1rem;
     grid-template-columns: 
-        repeat(2, 1fr)
+        repeat(3, 1fr)
+}
+
+.gridspan2{
+    grid-column: span 2;
 }
 /*
 .playeraward-grid:nth-child(1){

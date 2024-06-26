@@ -12,6 +12,9 @@
             <article>
                     <img class="playerimg" src=static/images/website/player/{{player[3]}}.png>
             </article>
+            <article>
+                <p>{{player[4]}}</p>
+            </article>
         {% else %}
             <article>
                 <div>
@@ -22,11 +25,19 @@
             </article>
             <article>
                 <div>
+                    <p>Apperances</p>
+                </div>
+            </article>
+            <article>
+                <div>
                     <p>{{player[2]}}</p>
                 </div>
             </article>
             <article>
                     <img class="playerimg" src=static/images/website/player/{{player[3]}}.png>
+            </article>
+            <article>
+                <p>{{player[4]}}</p>
             </article>
             {%- set seen = seen.append(player[0]) %}
         {% endif %}    
