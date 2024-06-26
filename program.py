@@ -32,9 +32,25 @@ def homepage():
 def about():
     return render_template("about.html")
 
-@app.route('/player')
+@app.route('/player', methods=['GET', 'POST'])
 def player():
-    return render_template("player.html", results=sqlsetup("SELECT Player.player, Club.club, Player.total_apperances, International.country, Player.photo FROM Player INNER JOIN Club ON Player.club_id = Club.club_id INNER JOIN International ON Player.international_id = International.international_id;"))
+    player=str(request.get_data('player'))
+    if request.method == 'POST':
+        print(player)
+        splitplayer = player.split("&")
+        for i in range(0,len(splitplayer)):
+            splitplayer[i] = filter(str.isdecimal,str(splitplayer[i]))
+            splitplayer[i] = "".join(splitplayer[i])
+        db = sqlite3.connect(DATABASE)
+        cursor = db.cursor()
+        results = []
+        for i in range(0,len(splitplayer)):
+            cursor.execute("SELECT Player.player, Club.club, Player.total_apperances, International.country, Player.photo, Player.player_id FROM Player INNER JOIN Club ON Player.club_id = Club.club_id INNER JOIN International ON Player.international_id = International.international_id; WHERE Player.player_id =?",(splitplayer[i],))
+            add = cursor.fetchall()
+            results.extend(add)
+        return render_template("player.html", results=results, fulllist=sqlsetup("SELECT Player.player, Club.club, Player.total_apperances, International.country, Player.photo, Player.player_id FROM Player INNER JOIN Club ON Player.club_id = Club.club_id INNER JOIN International ON Player.international_id = International.international_id;"), size=len(results))
+    else:    
+        return render_template("player.html", results=sqlsetup("SELECT Player.player, Club.club, Player.total_apperances, International.country, Player.photo, Player.player_id FROM Player INNER JOIN Club ON Player.club_id = Club.club_id INNER JOIN International ON Player.international_id = International.international_id;"), fulllist=sqlsetup("SELECT Player.player, Club.club, Player.total_apperances, International.country, Player.photo FROM Player INNER JOIN Club ON Player.club_id = Club.club_id INNER JOIN International ON Player.international_id = International.international_id;"))
 
 @app.route('/club')
 def club():
