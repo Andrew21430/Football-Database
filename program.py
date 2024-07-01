@@ -20,6 +20,13 @@ def sqlsetup(sql):
     results = cursor.fetchall()
     return results
 
+def spliter(data):
+    splits = data.split("&")
+    for i in range(0,len(splits)):
+        splits[i] = filter(str.isdecimal,str(splits[i]))
+        splits[i] = "".join(splits[i])
+    return splits
+
 
 @app.route('/')
 
@@ -36,15 +43,11 @@ def about():
 def player():
     player=str(request.get_data('player'))
     if request.method == 'POST':
-        print(player)
-        splitplayer = player.split("&")
-        for i in range(0,len(splitplayer)):
-            splitplayer[i] = filter(str.isdecimal,str(splitplayer[i]))
-            splitplayer[i] = "".join(splitplayer[i])
         db = sqlite3.connect(DATABASE)
         cursor = db.cursor()
         results = []
-        for i in range(0,len(splitplayer)):
+        splitplayer = spliter(player)
+        for i in range(0,len(spliter(player))):
             cursor.execute("SELECT Player.player, Club.club, Player.total_apperances, International.country, Player.photo, Player.player_id FROM Player INNER JOIN Club ON Player.club_id = Club.club_id INNER JOIN International ON Player.international_id = International.international_id WHERE Player.player_id =?",(splitplayer[i],))
             add = cursor.fetchall()
             results.extend(add)
@@ -52,13 +55,26 @@ def player():
     else:    
         return render_template("player.html", results=sqlsetup("SELECT Player.player, Club.club, Player.total_apperances, International.country, Player.photo, Player.player_id FROM Player INNER JOIN Club ON Player.club_id = Club.club_id INNER JOIN International ON Player.international_id = International.international_id;"), fulllist=sqlsetup("SELECT Player.player, Club.club, Player.total_apperances, International.country, Player.photo FROM Player INNER JOIN Club ON Player.club_id = Club.club_id INNER JOIN International ON Player.international_id = International.international_id;"))
 
-@app.route('/club')
+@app.route('/club', methods=['GET','POST'])
 def club():
-    return render_template("club.html", results=sqlsetup("SELECT Club.club_id, Club.club, Club.description, League.league, Club.emblem FROM Club INNER JOIN League ON Club.league_id = League.League_id ORDER BY Club.club ASC;"))
+    club=str(request.get_data('player'))
+    if request.method == 'POST':
+        print(club)
+        splitclub = spliter(club)
+        db = sqlite3.connect(DATABASE)
+        cursor = db.cursor()
+        results = []
+        for i in range(0,len(splitclub)):
+            cursor.execute("SELECT Club.club_id, Club.club, Club.description, League.league, Club.emblem FROM Club INNER JOIN League ON Club.league_id = League.League_id WHERE Club.club_id =?",(splitclub[i],))
+            add = cursor.fetchall()
+            results.extend(add)
+        return render_template("club.html",results=results ,fulllist=sqlsetup("SELECT Club.club_id, Club.club, Club.description, League.league, Club.emblem FROM Club INNER JOIN League ON Club.league_id = League.League_id ORDER BY Club.club ASC;"), size=len(results))
+    else: 
+        return render_template("club.html", results=sqlsetup("SELECT Club.club_id, Club.club, Club.description, League.league, Club.emblem FROM Club INNER JOIN League ON Club.league_id = League.League_id ORDER BY Club.club ASC;"),fulllist=sqlsetup("SELECT Club.club_id, Club.club, Club.description, League.league, Club.emblem FROM Club INNER JOIN League ON Club.league_id = League.League_id ORDER BY Club.club ASC;"))
 
 @app.route('/international')
 def international():
-    return render_template("international.html", results=sqlsetup("SELECT * FROM International;"))
+    return render_template("international.html", results=sqlsetup("SELECT * FROM International ORDER BY country ASC;"))
 
 #@app.route('/award')
 #def award():
@@ -150,10 +166,7 @@ def award():
     print(trophy)
     if request.method == 'POST':
         print(trophy)
-        splittrophy = trophy.split("&")
-        for i in range(0,len(splittrophy)):
-            splittrophy[i] = filter(str.isdecimal,str(splittrophy[i]))
-            splittrophy[i] = "".join(splittrophy[i])
+        splittrophy = spliter(trophy)
         db = sqlite3.connect(DATABASE)
         cursor = db.cursor()
         results = []

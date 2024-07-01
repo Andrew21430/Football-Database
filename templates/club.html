@@ -1,20 +1,32 @@
 {% extends 'layout.html' %}
 {% block content %}
-
-<main class="club-grid">
-    {% for club in results %}
-        <article >
-                <p>{{club[1]}}</p>
-        </article>
-            <article>
-                <img class="clubimg" src=static/images/website/emblem/{{club[4]}}.png>
-            </article>
+<main>
+    <form action="/club" method="post">
+        <label for="club">Choose a player(s):</label>
+        <select id="club" name="club" size="10" multiple>
+            {%- for club in fulllist -%}
+                <option value="{{club[0]}}">{{club[1]}}</option>
+            {%- endfor -%}
+        </select><br><br>
+        <input type="submit">
+        </form>
+    <main class="club-grid">
+        {%- for club in results -%}
             <article >
+                    <p>{{club[1]}}</p>
+            </article>
+                <article>
+                    <img class="clubimg" src=static/images/website/emblem/{{-club[4]-}}.png>
+                </article>
+                <article>
                     <p>{{club[2]}}</p>
-            </article>
-            <article >
-                <p>{{club[3]}}</p>
-            </article>
+                </article>
+                <article >
+                    <p>{{club[3]}}</p>
+                </article>
+    
             
-    {% endfor %}
-{% endblock %}
+        {%- endfor -%}
+    </main>
+    {% endblock %}
+    </main>
