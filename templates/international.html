@@ -1,17 +1,29 @@
 {% extends 'layout.html' %}
 {% block content %}
-
-<main class="international-grid">
-    {% for inter in results %}
-        <article >
-                <p>{{inter[1]}}</p>
-        </article>
-            <article>
-                <img class="internationalimg" src=static/images/website/Flags/{{inter[3]}}.png>
-            </article>
+<main>
+    <form action="/international" method="post">
+        <label for="international">Choose a contry(s):</label>
+        <select id="international" name="international" size="10" multiple>
+            {%- for international in fulllist -%}
+                <option value="{{international[0]}}">{{international[1]}}</option>
+            {%- endfor -%}
+        </select><br><br>
+        <input type="submit">
+    </form>
+    <main class="international-grid">
+        {%- for international in results -%}
             <article >
-                    <p>{{inter[2]}}</p>
+                    <p>{{international[1]}}</p>
             </article>
+                <article>
+                    <img class="internationalimg" src=static/images/website/Flags/{{-international[3]-}}.png>
+                </article>
+                <article>
+                    <p>{{international[2]}}</p>
+                </article>
+    
             
-    {% endfor %}
+        {%- endfor -%}
+    </main>    
 {% endblock %}
+</main>

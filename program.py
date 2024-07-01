@@ -57,7 +57,7 @@ def player():
 
 @app.route('/club', methods=['GET','POST'])
 def club():
-    club=str(request.get_data('player'))
+    club=str(request.get_data('club'))
     if request.method == 'POST':
         print(club)
         splitclub = spliter(club)
@@ -72,9 +72,22 @@ def club():
     else: 
         return render_template("club.html", results=sqlsetup("SELECT Club.club_id, Club.club, Club.description, League.league, Club.emblem FROM Club INNER JOIN League ON Club.league_id = League.League_id ORDER BY Club.club ASC;"),fulllist=sqlsetup("SELECT Club.club_id, Club.club, Club.description, League.league, Club.emblem FROM Club INNER JOIN League ON Club.league_id = League.League_id ORDER BY Club.club ASC;"))
 
-@app.route('/international')
+@app.route('/international', methods=['GET','POST'])
 def international():
-    return render_template("international.html", results=sqlsetup("SELECT * FROM International ORDER BY country ASC;"))
+    international=str(request.get_data('international'))
+    if request.method == 'POST':
+        print(international)
+        splitinternational = spliter(international)
+        db = sqlite3.connect(DATABASE)
+        cursor = db.cursor()
+        results = []
+        for i in range(0,len(splitinternational)):
+            cursor.execute("SELECT * FROM International WHERE international_id =?",(splitinternational[i],))
+            add = cursor.fetchall()
+            results.extend(add)
+        return render_template("international.html",results=results ,fulllist=sqlsetup("SELECT * FROM International ORDER BY country ASC;"), size=len(results))
+    else: 
+        return render_template("international.html", results=sqlsetup("SELECT * FROM International ORDER BY country ASC;"), fulllist=sqlsetup("SELECT * FROM International ORDER BY country ASC;"))
 
 #@app.route('/award')
 #def award():
