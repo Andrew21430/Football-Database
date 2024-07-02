@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+{% block content %}
+{% set seen= ['no']%}
+<main class="internationalaward-grid">
+    {% for tropies in results %}
+        {%- if seen[-1] == tropies[0] -%}
+            <article>
+                <div>
+                    <p>{{tropies[2]}}</p>
+                </div>
+            </article>
+            <article>
+                <div>
+                    <p>{{tropies[3]}}</p>
+                </div>
+            </article>
+        {% else %}
+            <article>
+                <div>
+                    <h1>{{tropies[0]}} </h1></div>
+            </article>
+            <article>
+                <img class="playerawardimg" src=static/images/website/Awards/{{tropies[1]}}>
+            </article>
+            <article>
+                <div>
+                    <p>{{tropies[2]}}</p>
+                </div>
+            </article>
+            <article>
+                <div>
+                    <p>{{tropies[3]}} </p>
+                </div>
+            </article>
+            {%- set seen = seen.append(tropies[0]) %}
+        {% endif %}    
+
+    {% endfor %}
+{% endblock %}
+</main>

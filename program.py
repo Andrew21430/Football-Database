@@ -196,5 +196,15 @@ def playerclubs():
     seen = ['test']
     return render_template("playerclubs.html", seen=seen, results=sqlsetup("SELECT Club.club, Club.emblem, Player.player, Player.photo, past_player_club.apperances From past_player_club INNER JOIN Club on past_player_club.club_id = Club.club_id INNER JOIN Player ON past_player_club.player_id = Player.player_id ORDER BY Club.club ASC;"))    
 
+@app.route('/internationalawards')
+def internationalawards():
+    seen = ['test']
+    return render_template("internationalaward.html",seen=seen,results=sqlsetup("SELECT Award.award, Award.award_photo, International.country, International_Award.count FROM International_Award INNER JOIN Award on International_Award.award_id = Award.award_id INNER JOIN International ON International_Award.international_id = International.International_id ORDER BY International_award.award_id ASC, International_Award.count DESC;"))
+
+@app.route('/internationalapperances')
+def internationalapperances():
+    seen = ['test']
+    return render_template("internationalapperances.html",seen=seen,results=sqlsetup("SELECT International.country, International.flag, Player.player, Player.photo, International_apperances.apperances FROM International_apperances INNER JOIN Player on International_apperances.player_id = Player.player_id INNER JOIN International ON International_apperances.international_id = International.International_id ORDER BY International.country ASC, International_apperances.apperances DESC;"))
+
 if __name__ == "__main__":
     app.run(debug=True)
