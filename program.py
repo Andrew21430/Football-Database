@@ -15,7 +15,7 @@ app = Flask(__name__)
 
 def sqlsetup(sql):
     db = sqlite3.connect(DATABASE)
-    cursor = db.cursor() 
+    cursor = db.cursor()
     cursor.execute(sql)
     results = cursor.fetchall()
     return results
@@ -52,7 +52,7 @@ def player():
             add = cursor.fetchall()
             results.extend(add)
         return render_template("player.html", results=results, fulllist=sqlsetup("SELECT Player.player, Club.club, Player.total_apperances, International.country, Player.photo, Player.player_id FROM Player INNER JOIN Club ON Player.club_id = Club.club_id INNER JOIN International ON Player.international_id = International.international_id;"), size=len(results))
-    else:    
+    else:
         return render_template("player.html", results=sqlsetup("SELECT Player.player, Club.club, Player.total_apperances, International.country, Player.photo, Player.player_id FROM Player INNER JOIN Club ON Player.club_id = Club.club_id INNER JOIN International ON Player.international_id = International.international_id;"), fulllist=sqlsetup("SELECT Player.player, Club.club, Player.total_apperances, International.country, Player.photo FROM Player INNER JOIN Club ON Player.club_id = Club.club_id INNER JOIN International ON Player.international_id = International.international_id;"))
 
 
@@ -70,7 +70,7 @@ def club():
             add = cursor.fetchall()
             results.extend(add)
         return render_template("club.html", results=results, fulllist=sqlsetup("SELECT Club.club_id, Club.club, Club.description, League.league, Club.emblem FROM Club INNER JOIN League ON Club.league_id = League.League_id ORDER BY Club.club ASC;"), size=len(results))
-    else: 
+    else:
         return render_template("club.html", results=sqlsetup("SELECT Club.club_id, Club.club, Club.description, League.league, Club.emblem FROM Club INNER JOIN League ON Club.league_id = League.League_id ORDER BY Club.club ASC;"), fulllist=sqlsetup("SELECT Club.club_id, Club.club, Club.description, League.league, Club.emblem FROM Club INNER JOIN League ON Club.league_id = League.League_id ORDER BY Club.club ASC;"))
 
 
@@ -88,7 +88,7 @@ def international():
             add = cursor.fetchall()
             results.extend(add)
         return render_template("international.html", results=results, fulllist=sqlsetup("SELECT * FROM International ORDER BY country ASC;"), size=len(results))
-    else: 
+    else:
         return render_template("international.html", results=sqlsetup("SELECT * FROM International ORDER BY country ASC;"), fulllist=sqlsetup("SELECT * FROM International ORDER BY country ASC;"))
 
 # @app.route('/award')
@@ -106,7 +106,7 @@ def clubaward():
 def playeraward():
     seen = ['test']
     return render_template("playeraward.html", seen=seen, results=sqlsetup("SELECT Award.award,  Award.award_photo, Player.player, Player_Award.count FROM Player_Award INNER JOIN Award ON Player_Award.award_id = Award.award_id INNER JOIN Player ON Player_Award.player_id = Player.player_id ORDER BY Player_Award.award_id ASC, Player_Award.count DESC, Player.player ASC;"))
-   
+
 
 @app.route('/league')
 def league():
@@ -175,7 +175,7 @@ def Hollow_diamond(size):
                         line = ' '*spaces + '*' + ' '*((((i-x)-1)*2)-1) + '*'
                         row.append(line)
     length = len(row)
-    
+
     return render_template('diamond.html', row=row, length=length,)
 
 
@@ -194,14 +194,14 @@ def award():
             add = cursor.fetchall()
             results.extend(add)
         return render_template("award.html", results=results, fulllist=sqlsetup("SELECT * FROM Award"), size=len(results))
-    else:    
+    else:
         return render_template("award.html", results=sqlsetup("SELECT * FROM Award"), fulllist=sqlsetup("SELECT * FROM Award"))
 
 
 @app.route('/playerclubs')
 def playerclubs():
     seen = ['test']
-    return render_template("playerclubs.html", seen=seen, results=sqlsetup("SELECT Club.club, Club.emblem, Player.player, Player.photo, past_player_club.apperances From past_player_club INNER JOIN Club on past_player_club.club_id = Club.club_id INNER JOIN Player ON past_player_club.player_id = Player.player_id ORDER BY Club.club ASC;"))    
+    return render_template("playerclubs.html", seen=seen, results=sqlsetup("SELECT Club.club, Club.emblem, Player.player, Player.photo, past_player_club.apperances From past_player_club INNER JOIN Club on past_player_club.club_id = Club.club_id INNER JOIN Player ON past_player_club.player_id = Player.player_id ORDER BY Club.club ASC;"))
 
 
 @app.route('/internationalawards')
@@ -218,4 +218,3 @@ def internationalapperances():
 
 if __name__ == "__main__":
     app.run(debug=True)
-    
