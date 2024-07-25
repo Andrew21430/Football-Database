@@ -32,16 +32,23 @@ def spliter(data):
     # inputs are slipt oin the & and this what is used for forms to split
     # multiple responses
     splits = data.split("&")
+    # this code lops through the new vaules and seprates them into decimal
+    # values so they can be read and utilised in the databse
     for i in range(0, len(splits)):
         splits[i] = filter(str.isdecimal, str(splits[i]))
         splits[i] = "".join(splits[i])
     return splits
 
 
+'''Start of webpages '''
+
+
 @app.route('/')
 def homepage():
-    uselessvar = "SELECT * FROM Player;"
-    return render_template("index.html", results=sqlsetup(uselessvar))
+    # variable declaration for each sql querry values
+    # that get used for each page
+    query = "SELECT * FROM Player;"
+    return render_template("index.html", results=sqlsetup(query))
 
 
 @app.route('/about')
@@ -49,13 +56,17 @@ def about():
     return render_template("about.html")
 
 
+# the players page as a submition for so we need to check and see if any
+# data has been sent
 @app.route('/player', methods=['GET', 'POST'])
 def player():
+    # resqut the data reseived rom the form eg player=2
     player = str(request.get_data('player'))
+    # delcaring all sql statments used
     query = 'SELECT Player.player, Club.club, Player.total_apperances, International.country, Player.photo, Player.player_id FROM Player INNER JOIN Club ON Player.club_id = Club.club_id INNER JOIN International ON Player.international_id = International.international_id'
     where = query
     where += ' WHERE Player.player_id =?'
-    print(where)
+    # if we do reseve a value from the form
     if request.method == 'POST':
         db = sqlite3.connect(DATABASE)
         cursor = db.cursor()
