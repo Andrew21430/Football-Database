@@ -78,15 +78,20 @@ def player():
         results = []
         # runs the splitter function to seperate all our values to just numbers
         splitplayer = spliter(player)
-        # loop thourgh all the results we got
-        for i in range(0, len(spliter(player))):
-            cursor.execute(where, (splitplayer[i],))
-            # ad each result to results as a new item in the list
-            add = cursor.fetchall()
-            results.extend(add)
-        # fulllist is the full sql database for use in the selection boxes
-        return render_template(
-            "player.html", results=results, fulllist=sqlsetup(order), size=len(results))
+        # checks if a response is actual given to the form and
+        # if it is blank, the full list will be displayed instead of nothing
+        if splitplayer == ['']:
+            return render_template("player.html", results=sqlsetup(order), fulllist=sqlsetup(order))
+        else:
+            # loop thourgh all the results we got
+            for i in range(0, len(spliter(player))):
+                cursor.execute(where, (splitplayer[i],))
+                # ad each result to results as a new item in the list
+                add = cursor.fetchall()
+                results.extend(add)
+            # fulllist is the full sql database for use in the selection boxes
+            return render_template(
+                "player.html", results=results, fulllist=sqlsetup(order), size=len(results))
     else:
         return render_template("player.html", results=sqlsetup(order), fulllist=sqlsetup(order))
 
@@ -106,11 +111,16 @@ def club():
         db = sqlite3.connect(DATABASE)
         cursor = db.cursor()
         results = []
-        for i in range(0, len(splitclub)):
-            cursor.execute(where, (splitclub[i],))
-            add = cursor.fetchall()
-            results.extend(add)
-        return render_template("club.html", results=results, fulllist=sqlsetup(order), size=len(results))
+        # checks if a response is actual given to the form and
+        # if it is blank, the full list will be displayed instead of nothing
+        if splitclub == ['']:
+            return render_template("club.html", results=sqlsetup(order), fulllist=sqlsetup(order))
+        else:
+            for i in range(0, len(splitclub)):
+                cursor.execute(where, (splitclub[i],))
+                add = cursor.fetchall()
+                results.extend(add)
+            return render_template("club.html", results=results, fulllist=sqlsetup(order), size=len(results))
     else:
         return render_template("club.html", results=sqlsetup(order), fulllist=sqlsetup(order))
 
@@ -126,14 +136,17 @@ def international():
     order += ' ORDER BY country ASC'
     if request.method == 'POST':
         splitinternational = spliter(international)
-        db = sqlite3.connect(DATABASE)
-        cursor = db.cursor()
-        results = []
-        for i in range(0, len(splitinternational)):
-            cursor.execute(where, (splitinternational[i],))
-            add = cursor.fetchall()
-            results.extend(add)
-        return render_template("international.html", results=results, fulllist=sqlsetup(order), size=len(results))
+        if splitinternational == ['']:
+            return render_template("international.html", results=sqlsetup(order), fulllist=sqlsetup(order))
+        else:
+            db = sqlite3.connect(DATABASE)
+            cursor = db.cursor()
+            results = []
+            for i in range(0, len(splitinternational)):
+                cursor.execute(where, (splitinternational[i],))
+                add = cursor.fetchall()
+                results.extend(add)
+            return render_template("international.html", results=results, fulllist=sqlsetup(order), size=len(results))
     else:
         return render_template("international.html", results=sqlsetup(order), fulllist=sqlsetup(order))
 
@@ -264,24 +277,27 @@ def award():
         db = sqlite3.connect(DATABASE)
         cursor = db.cursor()
         results = []
-        for i in range(0, len(splittrophy)):
-            cursor.execute(where, (splittrophy[i],))
-            add = cursor.fetchall()
-            results.extend(add)
-        return render_template("""award.html
-        """, results=results, fulllist=data, size=len(results))
+        # checks if a response is actual given to the form and
+        # if it is blank, the full list will be displayed instead of nothing
+        if splittrophy == ['']:
+            return render_template("award.html", results=sqlsetup(query), fulllist=sqlsetup(query))
+        else:
+            for i in range(0, len(splittrophy)):
+                cursor.execute(where, (splittrophy[i],))
+                add = cursor.fetchall()
+                results.extend(add)
+            return render_template("award.html", results=results, fulllist=data, size=len(results))
     else:
         return render_template("award.html", results=data, fulllist=data)
 
 
+# listing out all the players who a have played for a club and how,
+# many apperances they have for that club
 @app.route('/playerclubs')
 def playerclubs():
     seen = ['test']
     return render_template("playerclubs.html", seen=seen, results=sqlsetup(
-        """SELECT Club.club, Club.emblem, Player.player, Player.photo,
-        past_player_club.apperances From past_player_club INNER JOIN Club on
-        past_player_club.club_id = Club.club_id INNER JOIN Player ON
-        past_player_club.player_id = Player.player_id ORDER BY Club.club ASC;
+        """SELECT Club.club, Club.emblem, Player.player, Player.photo, past_player_club.apperances From past_player_club INNER JOIN Club on past_player_club.club_id = Club.club_id INNER JOIN Player ON past_player_club.player_id = Player.player_id ORDER BY Club.club ASC;
         """))
 
 
