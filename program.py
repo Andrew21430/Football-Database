@@ -331,6 +331,7 @@ def internationalapperances():
 
 @app.route('/addnewgame')
 def addnewgame():
+    
     return render_template('addnewgame.html')
 
 

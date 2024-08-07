@@ -19,3 +19,9 @@ update apperances
     Where statment to find each player that currently plays for that club
         Increase the total apperance stat 
         Increase the apperance stat for that club
+
+
+app.route
+
+all database loaded up and list them out with individual values
+    awards = ...., club = ....
