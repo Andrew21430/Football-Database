@@ -1,14 +1,21 @@
-pages that need grid updates:
-Players
-Clubs
-International
+new game addionion box
 
-Pages that need a search box
-Players
-clubs
-international
-Leagues
 
-Pages that need two search boxes
-club awards 
-player awards
+WEBSITE
+
+Trophy played for
+
+winning team
+
+losing team
+
+Internal coding 
+
+Find if this is a new trophy or a old one
+    Where stament in club awards datbase
+        if found +=1
+        else: add new item
+update apperances
+    Where statment to find each player that currently plays for that club
+        Increase the total apperance stat 
+        Increase the apperance stat for that club

@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% block content %}
+<main>
+    <form action="/newgame" method="post">
+        <label for="club">add a game(s):</label>
+        <select id="club" name="club" size="10" multiple>
+            {%- for club in fulllist -%}
+                <option value="{{club[0]}}">{{club[1]}}</option>
+            {%- endfor -%}
+        </select><br><br>
+        <input type="submit">
+        </form>

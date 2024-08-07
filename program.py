@@ -329,5 +329,10 @@ def internationalapperances():
         International_apperances.apperances DESC;"""))
 
 
+@app.route('/addnewgame')
+def addnewgame():
+    return render_template('addnewgame.html')
+
+
 if __name__ == "__main__":
     app.run(debug=True)

@@ -2,7 +2,7 @@
 {% block content %}
 <main>
     <form action="/club" method="post">
-        <label for="club">Choose a player(s):</label>
+        <label for="club">Choose a club(s):</label>
         <select id="club" name="club" size="10" multiple>
             {%- for club in fulllist -%}
                 <option value="{{club[0]}}">{{club[1]}}</option>
@@ -29,4 +29,4 @@
         {%- endfor -%}
     </main>
     {% endblock %}
-    </main>
+</main>
