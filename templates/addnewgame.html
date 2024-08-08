@@ -1,8 +1,10 @@
 {% extends 'layout.html' %}
 {% block content %}
 <main>
+    
     {% if {{submit[0]}} == {{testing[0]}} %}
         <h1>Thanking you for your submition the website will be updated as soon as you swap pages.</h1>
+        <br>
     {% else %}
         <form action="/newgame" method="post">
             <label for="club">add a game(s):</label>
@@ -24,7 +26,7 @@
                 {%- for club in clublist -%}
                     <option value="{{club[0]}}">{{club[1]}}</option>
                 {%- endfor -%}
-            </select><br><br>
+            </select><br><br><br>
             <input type="submit">
             </form>
     {% endif %}
