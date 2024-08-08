@@ -1,12 +1,32 @@
 {% extends 'layout.html' %}
 {% block content %}
 <main>
-    <form action="/newgame" method="post">
-        <label for="club">add a game(s):</label>
-        <select id="club" name="club" size="10" multiple>
-            {%- for club in fulllist -%}
-                <option value="{{club[0]}}">{{club[1]}}</option>
-            {%- endfor -%}
-        </select><br><br>
-        <input type="submit">
-        </form>
+    {% if {{submit[0]}} == {{testing[0]}} %}
+        <h1>Thanking you for your submition the website will be updated as soon as you swap pages.</h1>
+    {% else %}
+        <form action="/newgame" method="post">
+            <label for="club">add a game(s):</label>
+            <label>what trophy is being played for:(if nothing leave blank)</label>
+            <br>
+            <select id="award" name="award" size="10" >
+                {%- for award in awardlist -%}
+                    <option value="{{award[0]}}">{{award[1]}}</option>
+                {%- endfor -%}
+            </select><br>
+            <label for="club1">Choose the winning club:</label><br>
+            <select id="club1" name="club1" size="10" >
+                {%- for club in clublist -%}
+                    <option value="{{club[0]}}">{{club[1]}}</option>
+                {%- endfor -%}
+            </select><br>
+            <label for="club2">Choose the losing club:</label><br>
+            <select id="club2" name="club2" size="10" >
+                {%- for club in clublist -%}
+                    <option value="{{club[0]}}">{{club[1]}}</option>
+                {%- endfor -%}
+            </select><br><br>
+            <input type="submit">
+            </form>
+    {% endif %}
+{% endblock %}
+</main>

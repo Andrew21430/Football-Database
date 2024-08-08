@@ -329,10 +329,25 @@ def internationalapperances():
         International_apperances.apperances DESC;"""))
 
 
-@app.route('/addnewgame')
+@app.route('/addnewgame', methods=['GET', 'POST'])
 def addnewgame():
-    
-    return render_template('addnewgame.html')
+    submit = ["false"]
+    testing = ["true"]
+    award = str(request.get_data('trophies'))
+    awardquery = "SELECT * FROM Award"
+    awardwhere = awardquery
+    awardwhere += " WHERE award_id =?"
+    club1 = str(request.get_data('club1'))
+    club2 = str(request.get_data('club2'))
+    clubquery = 'SELECT Club.club_id, Club.club, Club.description, League.league, Club.emblem FROM Club INNER JOIN League ON Club.league_id = League.League_id'
+    clubwhere = clubquery
+    clubwhere += ' WHERE Club.club_id =?'
+    cluborder = clubquery
+    cluborder += ' ORDER BY Club.club ASC'
+    if request.method == "POST":
+        submit = ["true"]
+        return render_template('addnewgame.html', sumbit=submit, testing=testing, awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
+    return render_template('addnewgame.html', submit=submit, testing=testing, awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
 
 
 if __name__ == "__main__":
