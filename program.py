@@ -40,6 +40,27 @@ def spliter(data):
     return splits
 
 
+# updata data in the database given the databse item updated.
+# table = the databse table in sql
+# coullum = the coullum that is going to have a data changed
+# item = the excat item in that cullom that will have a data update
+# referance = a referance cullum in the database used for the where statement
+# that will actual update
+def update_data(table, coullum, item, referance):
+    # connect to the databse
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+    # find the original value for what we are going to increase by 1
+    increase_sql = f"SELECT {referance} FROM {table} WHERE {coullum} = ?"
+    # gain orginal number
+    increase = sqlsetup(increase_sql, (item))
+    # sql query to update the value 
+    sql = f"UPDATE {table} SET {referance} = ? WHERE {coullum} = ?"
+    # complete the update
+    cursor.execute(sql, (int(increase)+1, item))
+    
+
+
 '''Start of webpages '''
 
 
@@ -331,8 +352,6 @@ def internationalapperances():
 
 @app.route('/addnewgame', methods=['GET', 'POST'])
 def addnewgame():
-    submit = ["false"]
-    testing = ["true"]
     award = str(request.get_data('trophies'))
     awardquery = "SELECT * FROM Award"
     awardwhere = awardquery
@@ -345,9 +364,9 @@ def addnewgame():
     cluborder = clubquery
     cluborder += ' ORDER BY Club.club ASC'
     if request.method == "POST":
-        submit = ["true"]
-        return render_template('addnewgame.html', sumbit=submit, testing=testing, awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
-    return render_template('addnewgame.html', submit=submit, testing=testing, awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
+        update_data()
+        return render_template('addnewgame.html', sumbit='yes', testing='yes', awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
+    return render_template('addnewgame.html', submit='no', testing='yes', awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
 
 
 if __name__ == "__main__":
