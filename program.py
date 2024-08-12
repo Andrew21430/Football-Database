@@ -54,11 +54,24 @@ def update_data(table, coullum, item, referance):
     increase_sql = f"SELECT {referance} FROM {table} WHERE {coullum} = ?"
     # gain orginal number
     increase = sqlsetup(increase_sql, (item))
-    # sql query to update the value 
+    # sql query to update the value
     sql = f"UPDATE {table} SET {referance} = ? WHERE {coullum} = ?"
     # complete the update
     cursor.execute(sql, (int(increase)+1, item))
-    
+
+
+# add a new entry into the databse
+# (the a winner of a trophy for the first time)
+# table = the databse table in sql
+# coullum 1,2,3 = each coullum in the complex many to many table
+# item 1,2 = the other two values in the complex many to many
+# eg. club id and award id
+def add_data(table, coullum1, coullum2, coullum3, item1, item2):
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+    # sql query to insert the new data into the databse 
+    sql = f"INSTER INTO {table} ({coullum1}, {coullum2}, {coullum3}) VALUES (?, ?, ?);"
+    cursor.execute(sqlsetup(sql, (item1, item2, 1)))
 
 
 '''Start of webpages '''
