@@ -69,9 +69,27 @@ def update_data(table, coullum, item, referance):
 def add_data(table, coullum1, coullum2, coullum3, item1, item2):
     db = sqlite3.connect(DATABASE)
     cursor = db.cursor()
-    # sql query to insert the new data into the databse 
+    # sql query to insert the new data into the databse
     sql = f"INSTER INTO {table} ({coullum1}, {coullum2}, {coullum3}) VALUES (?, ?, ?);"
     cursor.execute(sqlsetup(sql, (item1, item2, 1)))
+
+
+# check and see if there is already a result in the database
+# to see if add_data or update_data is needed
+# table = the database table that is going to be updated
+# coullum = a referances to check and see if the item we are looking for
+# item = the exact team we are looking to find to confirm
+# if update or add is needed
+def check_data(table, coullum, item):
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+    sql = f"SELECT * FROM {table} WHERE {coullum} = ?;"
+    cursor.execute(sqlsetup(sql, (item,)))
+    results = cursor.fetchall()
+    if results is None:
+        return (False)
+    else:
+        return (True)
 
 
 '''Start of webpages '''
