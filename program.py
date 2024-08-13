@@ -395,13 +395,21 @@ def addnewgame():
     cluborder = clubquery
     cluborder += ' ORDER BY Club.club ASC'
     if request.method == "POST":
+        # split our responses to pure number values to be used to update
+        # all the data needed
         splitaward = spliter(award)
         splitclub1 = spliter(club1)
         splitclub2 = spliter(club2)
+        # check to see if the winer club has already one that thropy before
         if check_data("Club_Award", "club_id", splitclub1) is True:
-            update_data()
+            # increases the count number by one for that club winning
+            # that award
+            update_data("Club_Award", "club_id", "award_id", splitclub1[0], splitaward[0], "count")
         else:
-            add_data()
+            # adds a new data entry with the count of 1 to the Club_Award
+            add_data("Club_Award", "club_id", "award_id", "count", splitclub1[0], splitaward[0])
+        # increase player apperances
+        
         return render_template('addnewgame.html', sumbit='yes', testing='yes', awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
     return render_template('addnewgame.html', submit='no', testing='yes', awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
 
