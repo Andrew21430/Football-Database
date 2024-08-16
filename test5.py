@@ -35,7 +35,7 @@ def spliter(data):
 # item = the exact item in that coullum that will have a data update
 # referance = a referance coullum in the database used for the where statement
 # that will actual update
-def update_data(table, coullum1, coullum2, item1, item2, referance):
+def update_data(table, coullum1, coullum2, referance, item1, item2):
     print(f"{table}\n{coullum1}\n{coullum2}\n{item1}\n{item2}\n{referance}")
     # find the original value for what we are going to increase by 1
     increase_sql = f"SELECT {referance} FROM {table} WHERE {coullum1} = ? and {coullum2} = ?;"
@@ -83,18 +83,21 @@ def add_data(table, coullum1, coullum2, coullum3, item1, item2):
 # coullum = a referances to check and see if the item we are looking for
 # item = the exact team we are looking to find to confirm
 # if update or add is needed
-def check_data(table, coullum, item):
+def check_data(table, coullum1, coullum2, item1, item2):
     db = sqlite3.connect(DATABASE)
     cursor = db.cursor()
-    sql = f"SELECT * FROM {table} WHERE {coullum} = ?;"
-    cursor.execute(sqlsetup(sql, (item,)))
+    sql = f"SELECT * FROM {table} WHERE {coullum1} = ? and {coullum2} = ?;"
+    print(sql)
+    cursor.execute(sql, (item1, item2))
     results = cursor.fetchall()
-    if results is None:
-        return (False)
-    else:
-        return (True)
+    print(results)
+    return results
 
 
-#update_data("Club_Award", "club_id", "award_id", 11, 1, "count")
-
-add_data("Club_Award", "club_id", "award_id", "count", 118, 1)
+check_data("Club_Award", "club_id", "award_id", 118, 2)
+if len(check_data("Club_Award", "club_id", "award_id", 118, 2)) == 0:
+    print("add")
+    add_data("Club_Award", "club_id", "award_id", "count", 118, 2)
+else:
+    print("update")
+    update_data("Club_Award", "club_id", "award_id", "count", 118, 2)

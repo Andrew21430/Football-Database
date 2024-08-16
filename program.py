@@ -106,6 +106,31 @@ def check_data(table, coullum, item):
         return (True)
 
 
+# same as the update data code but this requires one less coullum to update
+def update_apperances(table, coullum1, item1, referance):
+    print(f"{table}\n{coullum1}\n{item1}\n{referance}")
+    # find the original value for what we are going to increase by 1
+    increase_sql = f"SELECT {referance} FROM {table} WHERE {coullum1} = ?"
+    # gain orginal number
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+    cursor.execute(increase_sql, (item1, ))
+    increase = cursor.fetchall()[0]
+    addtion = int(increase[0]) + 1
+    add = str(addtion)
+    print(add)
+    # sql query to update the value
+    sql = f"UPDATE {table} SET {referance} = {add} WHERE {coullum1} = {item1};"
+    print(sql)
+    # complete the update
+    # connect to the databse
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+    cursor.execute(sql)
+    db.commit()
+    db.close()
+
+
 '''Start of webpages '''
 
 
@@ -421,9 +446,7 @@ def addnewgame():
             update_data("Club_Award", "club_id", "award_id", splitclub1[0], splitaward[0], "count")
         else:
             # adds a new data entry with the count of 1 to the Club_Award
-            add_data("Club_Award", "club_id", "award_id", "count", splitclub1[0], splitaward[0])
-        # increase player apperances
-        
+            add_data("Club_Award", "club_id", "award_id", "count", splitclub1[0], splitaward[0])    
         return render_template('addnewgame.html', sumbit='yes', testing='yes', awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
     return render_template('addnewgame.html', submit='no', testing='yes', awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
 
