@@ -47,17 +47,27 @@ def spliter(data):
 # referance = a referance coullum in the database used for the where statement
 # that will actual update
 def update_data(table, coullum1, coullum2, item1, item2, referance):
+    print(f"{table}\n{coullum1}\n{coullum2}\n{item1}\n{item2}\n{referance}")
+    # find the original value for what we are going to increase by 1
+    increase_sql = f"SELECT {referance} FROM {table} WHERE {coullum1} = ? and {coullum2} = ?;"
+    # gain orginal number
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+    cursor.execute(increase_sql, (item1, item2))
+    increase = cursor.fetchall()[0]
+    addtion = int(increase[0]) + 1
+    add = str(addtion)
+    print(add)
+    # sql query to update the value
+    sql = f"UPDATE {table} SET {referance} = {add} WHERE {coullum1} = {item1} and {coullum2} = {item2};"
+    print(sql)
+    # complete the update
     # connect to the databse
     db = sqlite3.connect(DATABASE)
     cursor = db.cursor()
-    # find the original value for what we are going to increase by 1
-    increase_sql = f"SELECT {referance} FROM {table} WHERE {coullum1} = ? and {coullum2} = ?"
-    # gain orginal number
-    increase = sqlsetup(increase_sql, (item1, item2))
-    # sql query to update the value
-    sql = f"UPDATE {table} SET {referance} = ? WHERE {coullum1} = ? and {coullum2} = ?"
-    # complete the update
-    cursor.execute(sql, (int(increase)+1, item1, item2))
+    cursor.execute(sql)
+    db.commit()
+    db.close()
 
 
 # add a new entry into the databse
@@ -67,11 +77,15 @@ def update_data(table, coullum1, coullum2, item1, item2, referance):
 # item 1,2 = the other two values in the complex many to many
 # eg. club id and award id
 def add_data(table, coullum1, coullum2, coullum3, item1, item2):
+    print(f"{table}\n{coullum1}\n{coullum2}\n{coullum3}\n{item1}\n{item2}")
     db = sqlite3.connect(DATABASE)
     cursor = db.cursor()
     # sql query to insert the new data into the databse
-    sql = f"INSTER INTO {table} ({coullum1}, {coullum2}, {coullum3}) VALUES (?, ?, ?);"
-    cursor.execute(sqlsetup(sql, (item1, item2, 1)))
+    sql = f"INSERT INTO {table} ({coullum1}, {coullum2}, {coullum3}) VALUES (?, ?, ?);"
+    print(sql)
+    cursor.execute(sql, (item1, item2, 1))
+    db.commit()
+    db.close()
 
 
 # check and see if there is already a result in the database
