@@ -94,33 +94,31 @@ def add_data(table, coullum1, coullum2, coullum3, item1, item2):
 # coullum = a referances to check and see if the item we are looking for
 # item = the exact team we are looking to find to confirm
 # if update or add is needed
-def check_data(table, coullum, item):
+def check_data(table, coullum1, coullum2, item1, item2):
     db = sqlite3.connect(DATABASE)
     cursor = db.cursor()
-    sql = f"SELECT * FROM {table} WHERE {coullum} = ?;"
-    cursor.execute(sqlsetup(sql, (item,)))
+    sql = f"SELECT * FROM {table} WHERE {coullum1} = ? and {coullum2} = ?;"
+    print(sql)
+    cursor.execute(sql, (item1, item2))
     results = cursor.fetchall()
-    if results is None:
-        return (False)
-    else:
-        return (True)
+    print(results)
+    return results
 
 
-# same as the update data code but this requires one less coullum to update
-def update_apperances(table, coullum1, item1, referance):
-    print(f"{table}\n{coullum1}\n{item1}\n{referance}")
+def update_apperances(table, coullum1, coullum2, referance, item1, item2):
+    print(f"{table}\n{coullum1}\n{coullum2}\n{item1}\n{item2}\n{referance}")
     # find the original value for what we are going to increase by 1
-    increase_sql = f"SELECT {referance} FROM {table} WHERE {coullum1} = ?"
+    increase_sql = f"SELECT {referance} FROM {table} WHERE {coullum1} = ? and {coullum2} = ?;"
     # gain orginal number
     db = sqlite3.connect(DATABASE)
     cursor = db.cursor()
-    cursor.execute(increase_sql, (item1, ))
+    cursor.execute(increase_sql, (item1, item2))
     increase = cursor.fetchall()[0]
     addtion = int(increase[0]) + 1
     add = str(addtion)
     print(add)
     # sql query to update the value
-    sql = f"UPDATE {table} SET {referance} = {add} WHERE {coullum1} = {item1};"
+    sql = f"UPDATE {table} SET {referance} = {add} WHERE {coullum1} = {item1} and {coullum2} = {item2};"
     print(sql)
     # complete the update
     # connect to the databse
@@ -440,13 +438,13 @@ def addnewgame():
         splitclub1 = spliter(club1)
         splitclub2 = spliter(club2)
         # check to see if the winer club has already one that thropy before
-        if check_data("Club_Award", "club_id", splitclub1) is True:
+        if len(check_data("Club_Award", "club_id", splitclub1)) == 0:
+            # adds a new data entry with the count of 1 to the Club_Award
+            add_data("Club_Award", "club_id", "award_id", "count", splitclub1[0], splitaward[0])
+        else:
             # increases the count number by one for that club winning
             # that award
             update_data("Club_Award", "club_id", "award_id", splitclub1[0], splitaward[0], "count")
-        else:
-            # adds a new data entry with the count of 1 to the Club_Award
-            add_data("Club_Award", "club_id", "award_id", "count", splitclub1[0], splitaward[0])    
         return render_template('addnewgame.html', sumbit='yes', testing='yes', awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
     return render_template('addnewgame.html', submit='no', testing='yes', awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
 
