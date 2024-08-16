@@ -105,28 +105,31 @@ def check_data(table, coullum1, coullum2, item1, item2):
     return results
 
 
-def update_apperances(table, coullum1, coullum2, referance, item1, item2):
-    print(f"{table}\n{coullum1}\n{coullum2}\n{item1}\n{item2}\n{referance}")
-    # find the original value for what we are going to increase by 1
-    increase_sql = f"SELECT {referance} FROM {table} WHERE {coullum1} = ? and {coullum2} = ?;"
+# uppdate apperances needs one less data entry then update data
+# so a new function is needed
+def update_apperances(table, coullum1, coullum2, referance, item1):
+    print(f"{table}\n{coullum1}\n{coullum2}\n{item1}\n{referance}")
+    # we need to instead find all 
+    increase_sql = f"SELECT {coullum2}, {referance} FROM {table} WHERE {coullum1} = ?;"
     # gain orginal number
     db = sqlite3.connect(DATABASE)
     cursor = db.cursor()
-    cursor.execute(increase_sql, (item1, item2))
-    increase = cursor.fetchall()[0]
-    addtion = int(increase[0]) + 1
-    add = str(addtion)
-    print(add)
-    # sql query to update the value
-    sql = f"UPDATE {table} SET {referance} = {add} WHERE {coullum1} = {item1} and {coullum2} = {item2};"
-    print(sql)
-    # complete the update
-    # connect to the databse
-    db = sqlite3.connect(DATABASE)
-    cursor = db.cursor()
-    cursor.execute(sql)
-    db.commit()
-    db.close()
+    cursor.execute(increase_sql, (item1,))
+    increase = cursor.fetchall()
+    for item in increase:
+        addtion = int(item[1]) + 1
+        add = str(addtion)
+        print(add)
+        # sql query to update the value
+        sql = f"UPDATE {table} SET {referance} = {add} WHERE {coullum2} = {item[0]} and {coullum1} = {item1};"
+        print(sql)
+        # complete the update
+        # connect to the databse
+        db = sqlite3.connect(DATABASE)
+        cursor = db.cursor()
+        cursor.execute(sql)
+        db.commit()
+        db.close()
 
 
 '''Start of webpages '''

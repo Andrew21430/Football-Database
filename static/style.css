@@ -23,9 +23,10 @@
     font-family: 'Walter-Turncoat';
     src: url(/static/Fonts/Walter_Turncoat/WalterTurncoat-Regular.ttf);
 }
-/* */
+/* setting up body */
 body{
 	color:#0f0f0f;
+    /* sets font for the page */
     font-family: 'Oxygen-regular';
 	font-size: 2rem;
 	background-color: rgb(191, 247, 174);
@@ -79,7 +80,7 @@ nav{
     float: left;
     font-size:xx-large ;
 }
-
+/* remove any unecciary margins and background colour for the items inside the navbar*/
 ul {
     list-style-type: none;
     margin: 0;
@@ -136,10 +137,15 @@ li a:hover {
     display: block;
 }
 
+/* image size declerations*/
 
+/* creates the size for the player award images*/
 .playerawardimg{
+    /* how wide*/
     width: 360px;
+    /* how high*/
     height:  450px;
+    /* border size around each image*/
     border-radius: 0.5rem;
     display: block;
 }
@@ -150,6 +156,44 @@ li a:hover {
     display: block;
 }
 
+.awardimg{
+    width: 360px;
+    height:  450px;
+    border-radius: 0.5rem;
+    display: block;
+}
+
+.internationalimg{
+    width: 300px;
+    height:  200px;
+    border-radius: 0.5rem;
+    display: block;
+}
+
+.leagueimg{
+    width: 450px;
+    height:  300px;
+    border-radius: 0.5rem;
+    display: block;
+}
+
+.clubimg{
+    width: 300px;
+    height:  300px;
+    border-radius: 0.5rem;
+    display: block;
+    object-fit: cover;
+}
+
+.playerimg{
+    width: 350px;
+    height:  400px;
+    border-radius: 0.5rem;
+    display: block;
+    object-fit: cover;
+}
+
+/* grid size declerations*/
 /* New grid trial for player award formating */
 
 .playeraward-grid{
@@ -184,26 +228,12 @@ li a:hover {
          1fr 1fr 1fr;
 }
 
-.awardimg{
-    width: 360px;
-    height:  450px;
-    border-radius: 0.5rem;
-    display: block;
-}
-
 .international-grid{
     display: grid;
     gap: 1.5rem;
     padding: 1rem;
     grid-template-columns: 
          1fr 1fr 1fr;
-}
-
-.internationalimg{
-    width: 300px;
-    height:  200px;
-    border-radius: 0.5rem;
-    display: block;
 }
 
 .league-grid{
@@ -214,27 +244,12 @@ li a:hover {
          50px 1fr 1fr 1fr;
 }
 
-.leagueimg{
-    width: 450px;
-    height:  300px;
-    border-radius: 0.5rem;
-    display: block;
-}
-
 .club-grid{
     display: grid;
     gap: 1.5rem;
     padding: 1rem;
     grid-template-columns: 
          1fr 1fr 1fr 1fr;
-}
-
-.clubimg{
-    width: 300px;
-    height:  300px;
-    border-radius: 0.5rem;
-    display: block;
-    object-fit: cover;
 }
 
 .player-grid{
@@ -244,14 +259,6 @@ li a:hover {
     padding: 1rem;
     grid-template-columns: 
          repeat(5,1fr) ;
-}
-
-.playerimg{
-    width: 350px;
-    height:  400px;
-    border-radius: 0.5rem;
-    display: block;
-    object-fit: cover;
 }
 
 .playerclub-grid{
