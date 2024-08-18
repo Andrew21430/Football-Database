@@ -448,6 +448,7 @@ def addnewgame():
         splitaward = spliter(award)
         splitclub1 = spliter(club1)
         splitclub2 = spliter(club2)
+        print(splitaward, "\n", splitclub1, "\n", splitclub2)
         if splitaward == ['']:
             pass
         else:
@@ -461,9 +462,9 @@ def addnewgame():
                 update_data("Club_Award", "club_id", "award_id", splitclub1[0], splitaward[0], "count")
         update_apperances("club_apperances", "club_id", "player_id", "apperance", splitclub1[0])
         update_apperances("club_apperances", "club_id", "player_id", "apperance", splitclub2[0])
-        return render_template('addnewgame.html', sumbit='yes', testing='yes', awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
+        return render_template('addnewgame.html', sumbit='yes', testing='yes', awardlist=sqlsetup(awardquery), clublist=sqlsetup(clubquery))
     else:
-        return render_template('addnewgame.html', submit='no', testing='yes', awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
+        return render_template('addnewgame.html', submit='no', testing='yes', awardlist=sqlsetup(awardquery), clublist=sqlsetup(clubquery))
 
 
 if __name__ == "__main__":
