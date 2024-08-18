@@ -109,27 +109,35 @@ def check_data(table, coullum1, coullum2, item1, item2):
 # so a new function is needed
 def update_apperances(table, coullum1, coullum2, referance, item1):
     print(f"{table}\n{coullum1}\n{coullum2}\n{item1}\n{referance}")
-    # we need to instead find all 
+    # find the original value for what we are going to increase by 1
     increase_sql = f"SELECT {coullum2}, {referance} FROM {table} WHERE {coullum1} = ?;"
     # gain orginal number
     db = sqlite3.connect(DATABASE)
     cursor = db.cursor()
     cursor.execute(increase_sql, (item1,))
     increase = cursor.fetchall()
+    checksql = "SELECT club_id FROM Player WHERE player_id = ?;"
     for item in increase:
         addtion = int(item[1]) + 1
         add = str(addtion)
-        print(add)
         # sql query to update the value
         sql = f"UPDATE {table} SET {referance} = {add} WHERE {coullum2} = {item[0]} and {coullum1} = {item1};"
-        print(sql)
-        # complete the update
-        # connect to the databse
+        # check and see if that player still plays for the clubthat just won
         db = sqlite3.connect(DATABASE)
         cursor = db.cursor()
-        cursor.execute(sql)
-        db.commit()
-        db.close()
+        cursor.execute(checksql, (item[0],))
+        check = cursor.fetchone()
+        # if thnat club id in the player table = the club id in apperances
+        # then it will increase the total apperances
+        if check[0] == item1:
+            # complete the update
+            db = sqlite3.connect(DATABASE)
+            cursor = db.cursor()
+            cursor.execute(sql)
+            db.commit()
+            db.close()
+        else:
+            pass
 
 
 '''Start of webpages '''
@@ -440,16 +448,22 @@ def addnewgame():
         splitaward = spliter(award)
         splitclub1 = spliter(club1)
         splitclub2 = spliter(club2)
-        # check to see if the winer club has already one that thropy before
-        if len(check_data("Club_Award", "club_id", splitclub1)) == 0:
-            # adds a new data entry with the count of 1 to the Club_Award
-            add_data("Club_Award", "club_id", "award_id", "count", splitclub1[0], splitaward[0])
+        if splitaward == ['']:
+            pass
         else:
-            # increases the count number by one for that club winning
-            # that award
-            update_data("Club_Award", "club_id", "award_id", splitclub1[0], splitaward[0], "count")
+            # check to see if the winer club has already one that thropy before
+            if len(check_data("Club_Award", "club_id", "award_id", splitclub1[0], splitaward[0])) == 0:
+                # adds a new data entry with the count of 1 to the Club_Award
+                add_data("Club_Award", "club_id", "award_id", "count", splitclub1[0], splitaward[0])
+            else:
+                # increases the count number by one for that club winning
+                # that award
+                update_data("Club_Award", "club_id", "award_id", splitclub1[0], splitaward[0], "count")
+        update_apperances("club_apperances", "club_id", "player_id", "apperance", splitclub1[0])
+        update_apperances("club_apperances", "club_id", "player_id", "apperance", splitclub2[0])
         return render_template('addnewgame.html', sumbit='yes', testing='yes', awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
-    return render_template('addnewgame.html', submit='no', testing='yes', awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
+    else:
+        return render_template('addnewgame.html', submit='no', testing='yes', awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
 
 
 if __name__ == "__main__":

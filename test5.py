@@ -103,6 +103,7 @@ def update_apperances(table, coullum1, coullum2, referance, item1):
     cursor = db.cursor()
     cursor.execute(increase_sql, (item1,))
     increase = cursor.fetchall()
+    checksql = "SELECT club_id FROM Player WHERE player_id = ?;"
     for item in increase:
         addtion = int(item[1]) + 1
         add = str(addtion)
@@ -110,13 +111,23 @@ def update_apperances(table, coullum1, coullum2, referance, item1):
         # sql query to update the value
         sql = f"UPDATE {table} SET {referance} = {add} WHERE {coullum2} = {item[0]} and {coullum1} = {item1};"
         print(sql)
-        # complete the update
-        # connect to the databse
+        # check and see if that player still plays for the clubthat just won
         db = sqlite3.connect(DATABASE)
         cursor = db.cursor()
-        cursor.execute(sql)
-        db.commit()
-        db.close()
+        cursor.execute(checksql, (item[0],))
+        check = cursor.fetchone()
+        # if thnat club id in the player table = the club id in apperances
+        # then it will increase the total apperances
+        if check[0] == item1:
+            print("passed")
+            # complete the update
+            db = sqlite3.connect(DATABASE)
+            cursor = db.cursor()
+            cursor.execute(sql)
+            db.commit()
+            db.close()
+        else:
+            print('passed')
 
 
 check_data("Club_Award", "club_id", "award_id", 118, 2)
@@ -127,4 +138,4 @@ else:
     print("update")
     update_data("Club_Award", "club_id", "award_id", "count", 118, 2)
 
-update_apperances("club_apperances", "club_id", "player_id", "apperance", 11)
+update_apperances("club_apperances", "club_id", "player_id", "apperance", 118)
