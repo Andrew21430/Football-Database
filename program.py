@@ -140,6 +140,11 @@ def update_apperances(table, coullum1, coullum2, referance, item1):
             pass
 
 
+# this will remove the first digit from an interger
+def remover(removing):
+    return removing[1:]
+
+
 '''Start of webpages '''
 
 
@@ -448,20 +453,22 @@ def addnewgame():
         splitaward = spliter(award)
         splitclub1 = spliter(club1)
         splitclub2 = spliter(club2)
-        print(splitaward, "\n", splitclub1, "\n", splitclub2)
+        # remove the extra digit added from form
+        clubeone = remover(splitclub1[1])
+        clubtwo = remover(splitclub2[2])
         if splitaward == ['']:
             pass
         else:
             # check to see if the winer club has already one that thropy before
-            if len(check_data("Club_Award", "club_id", "award_id", splitclub1[1], splitaward[0])) == 0:
+            if len(check_data("Club_Award", "club_id", "award_id", clubeone, splitaward[0])) == 0:
                 # adds a new data entry with the count of 1 to the Club_Award
-                add_data("Club_Award", "club_id", "award_id", "count", splitclub1[1], splitaward[0])
+                add_data("Club_Award", "club_id", "award_id", "count", clubeone, splitaward[0])
             else:
                 # increases the count number by one for that club winning
                 # that award
-                update_data("Club_Award", "club_id", "award_id", splitclub1[1], splitaward[0], "count")
-        update_apperances("club_apperances", "club_id", "player_id", "apperance", splitclub1[1])
-        update_apperances("club_apperances", "club_id", "player_id", "apperance", splitclub2[2])
+                update_data("Club_Award", "club_id", "award_id", clubeone, splitaward[0], "count")
+        update_apperances("club_apperances", "club_id", "player_id", "apperance", clubeone)
+        update_apperances("club_apperances", "club_id", "player_id", "apperance", clubtwo)
         return render_template('addnewgame.html', sumbit='yes', testing='yes', awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
     else:
         return render_template('addnewgame.html', submit='no', testing='yes', awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
