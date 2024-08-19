@@ -145,10 +145,13 @@ def update_total_apperances(table, coullum1, referance):
                 count += item[next]
                 print(count)
         interapp = f"SELECT {referance}s FROM international_apperances WHERE {coullum1} = ?;"
-        count + int(cursor.execute(interapp, (i,)))
-        print(count)
+        cursor.execute(interapp, (i,))
+        intapp = cursor.fetchone()
+        print(intapp)
+        totalapp = count + intapp[0]
+        print(totalapp)
         # final update
-        sql = f"UPDATE Player SET total_apperance = {count} WHERE {coullum1} = {i};"
+        sql = f"UPDATE Player SET total_apperances = {totalapp} WHERE {coullum1} = {i};"
         cursor.execute(sql)
         db.commit()
 
