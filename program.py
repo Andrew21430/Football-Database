@@ -145,6 +145,9 @@ def remover(removing):
     return removing[1:]
 
 
+
+
+
 '''Start of webpages '''
 
 

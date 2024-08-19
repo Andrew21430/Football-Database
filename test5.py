@@ -130,7 +130,30 @@ def update_apperances(table, coullum1, coullum2, referance, item1):
             print('passed')
 
 
-check_data("Club_Award", "club_id", "award_id", 118, 2)
+def update_total_apperances(table, coullum1, referance):
+    find_total_app = "SELECT total_apperances FROM player"
+    increase_sql = f"SELECT {referance} FROM {table} WHERE {coullum1} = ?;"
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+    for i in range(1, len(sqlsetup(find_total_app)) + 1):
+        count = 0
+        cursor.execute(increase_sql, (i,))
+        increase = cursor.fetchall()
+        print(increase)
+        for item in increase:
+            for next in range(0, len(item)):
+                count += item[next]
+                print(count)
+        interapp = f"SELECT {referance}s FROM international_apperances WHERE {coullum1} = ?;"
+        count + int(cursor.execute(interapp, (i,)))
+        print(count)
+        # final update
+        sql = f"UPDATE Player SET total_apperance = {count} WHERE {coullum1} = {i};"
+        cursor.execute(sql)
+        db.commit()
+
+
+'''check_data("Club_Award", "club_id", "award_id", 118, 2)
 if len(check_data("Club_Award", "club_id", "award_id", 118, 2)) == 0:
     print("add")
     add_data("Club_Award", "club_id", "award_id", "count", 118, 2)
@@ -138,4 +161,6 @@ else:
     print("update")
     update_data("Club_Award", "club_id", "award_id", "count", 118, 2)
 
-update_apperances("club_apperances", "club_id", "player_id", "apperance", 118)
+update_apperances("club_apperances", "club_id", "player_id", "apperance", 118)'''
+
+update_total_apperances("club_apperances", "player_id", "apperance")
