@@ -145,7 +145,37 @@ def remover(removing):
     return removing[1:]
 
 
-
+# this piece of code will update the total apperances number for players
+# basied on the data inputed into the database,
+# which means when a game gets added the toal apperance number will increase
+# for all the players that played in that match
+def update_total_apperances(table, coullum1, referance):
+    find_total_app = "SELECT total_apperances FROM player"
+    increase_sql = f"SELECT {referance} FROM {table} WHERE {coullum1} = ?;"
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+    for i in range(1, len(sqlsetup(find_total_app)) + 1):
+        count = 0
+        cursor.execute(increase_sql, (i,))
+        increase = cursor.fetchall()
+        print(increase)
+        for item in increase:
+            for next in range(0, len(item)):
+                count += item[next]
+                print(count)
+        interapp = f"SELECT {referance}s FROM international_apperances WHERE {coullum1} = ?;"
+        cursor.execute(interapp, (i,))
+        intapp = cursor.fetchone()
+        print(intapp)
+        if intapp is None:
+            pass
+        else:
+            totalapp = count + intapp[0]
+        print(totalapp)
+        # final update
+        sql = f"UPDATE Player SET total_apperances = {totalapp} WHERE {coullum1} = {i};"
+        cursor.execute(sql)
+        db.commit()
 
 
 '''Start of webpages '''
@@ -472,8 +502,10 @@ def addnewgame():
                 update_data("Club_Award", "club_id", "award_id", clubeone, splitaward[0], "count")
         update_apperances("club_apperances", "club_id", "player_id", "apperance", clubeone)
         update_apperances("club_apperances", "club_id", "player_id", "apperance", clubtwo)
+        update_total_apperances("club_apperances", "player_id", "apperance")
         return render_template('addnewgame.html', sumbit='yes', testing='yes', awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
     else:
+        update_total_apperances("club_apperances", "player_id", "apperance")
         return render_template('addnewgame.html', submit='no', testing='yes', awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
 
 

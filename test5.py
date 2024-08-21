@@ -148,7 +148,10 @@ def update_total_apperances(table, coullum1, referance):
         cursor.execute(interapp, (i,))
         intapp = cursor.fetchone()
         print(intapp)
-        totalapp = count + intapp[0]
+        if intapp is None:
+            pass
+        else:
+            totalapp = count + intapp[0]
         print(totalapp)
         # final update
         sql = f"UPDATE Player SET total_apperances = {totalapp} WHERE {coullum1} = {i};"
