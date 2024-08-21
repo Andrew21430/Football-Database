@@ -129,6 +129,7 @@ def update_apperances(table, coullum1, coullum2, referance, item1):
         check = cursor.fetchone()
         # if thnat club id in the player table = the club id in apperances
         # then it will increase the total apperances
+        print(f"\n\n\n {check[0]}\n\n\n\n {item1}\n\n")
         if check[0] == item1:
             # complete the update
             db = sqlite3.connect(DATABASE)
@@ -136,6 +137,7 @@ def update_apperances(table, coullum1, coullum2, referance, item1):
             cursor.execute(sql)
             db.commit()
             db.close()
+            print("/// updated apperance ///")
         else:
             pass
 
@@ -489,6 +491,10 @@ def addnewgame():
         # remove the extra digit added from form
         clubeone = remover(splitclub1[1])
         clubtwo = remover(splitclub2[2])
+        print("\n#\n#\n#\n#\n#\n#\n#")
+        print(clubeone)
+        print(clubtwo)
+        print("\n#\n#\n#\n#\n#\n#\n#")
         if splitaward == ['']:
             pass
         else:

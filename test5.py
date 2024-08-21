@@ -166,7 +166,7 @@ if len(check_data("Club_Award", "club_id", "award_id", 118, 2)) == 0:
 else:
     print("update")
     update_data("Club_Award", "club_id", "award_id", "count", 118, 2)
-
-update_apperances("club_apperances", "club_id", "player_id", "apperance", 118)'''
+'''
+update_apperances("club_apperances", "club_id", "player_id", "apperance", 107)
 
 update_total_apperances("club_apperances", "player_id", "apperance")
