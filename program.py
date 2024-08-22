@@ -436,7 +436,7 @@ def award():
 def playerclubs():
     seen = ['test']
     return render_template("playerclubs.html", seen=seen, results=sqlsetup(
-        """SELECT Club.club, Club.emblem, Player.player, Player.photo, past_player_club.apperances From past_player_club INNER JOIN Club on past_player_club.club_id = Club.club_id INNER JOIN Player ON past_player_club.player_id = Player.player_id ORDER BY Club.club ASC;
+        """SELECT Club.club, Club.emblem, Player.player, Player.photo, club_apperances.apperance From club_apperances INNER JOIN Club on club_apperances.club_id = Club.club_id INNER JOIN Player ON club_apperances.player_id = Player.player_id ORDER BY Club.club ASC;
         """))
 
 
