@@ -482,30 +482,36 @@ def addnewgame():
     cluborder = clubquery
     cluborder += ' ORDER BY Club.club ASC'
     if request.method == "POST":
-        # split our responses to pure number values to be used to update
-        # all the data needed
-        splitaward = spliter(award)
-        splitclub1 = spliter(club1)
-        splitclub2 = spliter(club2)
-        # remove the extra digit added from form
-        clubeone = remover(splitclub1[1])
-        clubtwo = remover(splitclub2[2])
-        print("\n#\n#\n#\n#\n#\n#\n#")
-        print(clubeone)
-        print(clubtwo)
-        print("\n#\n#\n#\n#\n#\n#\n#")
-        if splitaward == ['']:
-            pass
+        print(award + "\n" + club1 + "\n" + club2)
+        print(type(award))
+        checking = award.split("&")
+        print(checking)
+        # check and see if the game is being played for an award
+        if len(checking) == 2:
+            splitclub1 = spliter(club1)
+            splitclub2 = spliter(club2)
+            clubone = remover(splitclub1[0])
+            clubtwo = remover(splitclub2[1])
+            print(f"{clubone} \n\n\n {clubtwo}")
         else:
+            # split our responses to pure number values to be used to update
+            # all the data needed
+            splitaward = spliter(award)
+            splitclub1 = spliter(club1)
+            splitclub2 = spliter(club2)
+            print(splitaward, "\n", splitclub1, "\n", splitclub2)
+            # remove the extra digit added from form
+            clubone = remover(splitclub1[1])
+            clubtwo = remover(splitclub2[2])
             # check to see if the winer club has already one that thropy before
-            if len(check_data("Club_Award", "club_id", "award_id", clubeone, splitaward[0])) == 0:
+            if len(check_data("Club_Award", "club_id", "award_id", clubone, splitaward[0])) == 0:
                 # adds a new data entry with the count of 1 to the Club_Award
-                add_data("Club_Award", "club_id", "award_id", "count", clubeone, splitaward[0])
+                add_data("Club_Award", "club_id", "award_id", "count", clubone, splitaward[0])
             else:
                 # increases the count number by one for that club winning
                 # that award
-                update_data("Club_Award", "club_id", "award_id", clubeone, splitaward[0], "count")
-        update_apperances("club_apperances", "club_id", "player_id", "apperance", clubeone)
+                update_data("Club_Award", "club_id", "award_id", clubone, splitaward[0], "count")
+        update_apperances("club_apperances", "club_id", "player_id", "apperance", clubone)
         update_apperances("club_apperances", "club_id", "player_id", "apperance", clubtwo)
         update_total_apperances("club_apperances", "player_id", "apperance")
         return render_template('addnewgame.html', sumbit='yes', testing='yes', awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
