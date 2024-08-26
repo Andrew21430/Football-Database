@@ -488,11 +488,12 @@ def addnewgame():
         print(checking)
         # check and see if the game is being played for an award
         if len(checking) == 2:
+            # split the data into the individual values
             splitclub1 = spliter(club1)
             splitclub2 = spliter(club2)
+            # remove the extra digit added
             clubone = remover(splitclub1[0])
             clubtwo = remover(splitclub2[1])
-            print(f"{clubone} \n\n\n {clubtwo}")
         else:
             # split our responses to pure number values to be used to update
             # all the data needed
