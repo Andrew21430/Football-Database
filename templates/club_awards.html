@@ -4,30 +4,32 @@
 <main class="clubaward-grid">
     {% for tropies in results %}
         {%- if seen[-1] == tropies[0] -%}
-            <article class="clubaward-grid">
+            <article>
                 <div>
                     <p>{{tropies[2]}}</p>
                 </div>
             </article>
-            <article class="clubaward-grid">
+            <article>
                 <div>
                     <p>{{tropies[3]}}</p>
                 </div>
             </article>
         {% else %}
-            <article class="clubaward-grid">
+            <article>
                 <div>
                     <h1>{{tropies[0]}} </h1></div>
             </article>
-            <article class="clubaward-grid">
+            <article>
                 <img class="clubawardimg" src=static/images/website/Awards/{{tropies[1]}}>
             </article>
-            <article class="clubaward-grid">
+            <article><p>Club</p></article>
+            <article><p>Total Awarded</p></article>
+            <article>
                 <div>
                     <p>{{tropies[2]}}</p>
                 </div>
             </article>
-            <article class="clubaward-grid">
+            <article>
                 <div>
                     <p>{{tropies[3]}} </p>
                 </div>

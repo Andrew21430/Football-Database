@@ -7,8 +7,8 @@
         <br>
     {% else %}
         <form action="/addnewgame" method="post">
-            <label for="club">add a game(s):</label>
-            <label>what trophy is being played for:(if nothing leave blank)</label>
+            <label for="club">Add a game(s):</label>
+            <label>what trophy is being played for: (if nothing leave blank)</label>
             <br>
             <select id="award" name="award" size="10" >
                 {%- for award in awardlist -%}
