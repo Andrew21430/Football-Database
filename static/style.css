@@ -185,13 +185,17 @@ ul li:hover ul.dropdown {
 }
 
 .standardimg{
-    width: 350px;
-    height:  400px;
+    width: 100px;
+    height:  150px;
     border-radius: 0.5rem;
     display: block;
     object-fit: cover;
+    transition: transform .2s;
 }
 
+.standardimg:hover{
+    transform: scale(2);
+}
 /* grid size declerations*/
 /* New grid trial for player award formating */
 
@@ -235,6 +239,8 @@ ul li:hover ul.dropdown {
          repeat(5,1fr) ;
 }
 
+.fivecol-grid:nth-of-type(odd) {background: #e04444 !important;}
+.fivecol-grid:nth-of-type(even) {background: #efefef !important;}
 
 .gridspan2{
     grid-column: span 2;
