@@ -45,7 +45,7 @@ pre{
     line-height: 0px
 }
 
-/* Remove default margin */
+/* change default margin */
 body,
 h1,
 h2,
@@ -162,30 +162,6 @@ ul li:hover ul.dropdown {
 
 /* image size declerations*/
 
-/* creates the size for the player award images*/
-.playerawardimg{
-    /* how wide*/
-    width: 360px;
-    /* how high*/
-    height:  450px;
-    /* border size around each image*/
-    border-radius: 0.5rem;
-    display: block;
-}
-.clubawardimg{
-    width: 360px;
-    height:  450px;
-    border-radius: 0.5rem;
-    display: block;
-}
-
-.awardimg{
-    width: 360px;
-    height:  450px;
-    border-radius: 0.5rem;
-    display: block;
-}
-
 .internationalimg{
     width: 300px;
     height:  200px;
@@ -208,7 +184,7 @@ ul li:hover ul.dropdown {
     object-fit: cover;
 }
 
-.playerimg{
+.standardimg{
     width: 350px;
     height:  400px;
     border-radius: 0.5rem;
@@ -219,7 +195,7 @@ ul li:hover ul.dropdown {
 /* grid size declerations*/
 /* New grid trial for player award formating */
 
-.playeraward-grid{
+.twocol-grid{
     display: grid;
     gap: 1.5rem;
     padding: 1rem;
@@ -227,15 +203,7 @@ ul li:hover ul.dropdown {
         repeat(2, 1fr)
 }
 
-.clubaward-grid{
-    display: grid;
-    gap: 1.5rem;
-    padding: 1rem;
-    grid-template-columns: 
-        repeat(2, 1fr)
-}
-
-.league-grid{
+.fourcol-grid{
     display: grid;
     gap: 1.5rem;
     padding: 1rem;
@@ -243,15 +211,7 @@ ul li:hover ul.dropdown {
         repeat(4, 1fr)
 }
 
-.award-grid{
-    display: grid;
-    gap: 1.5rem;
-    padding: 1rem;
-    grid-template-columns: 
-         1fr 1fr 1fr;
-}
-
-.international-grid{
+.threecol-grid{
     display: grid;
     gap: 1.5rem;
     padding: 1rem;
@@ -267,39 +227,15 @@ ul li:hover ul.dropdown {
          100px 1fr 1fr 1fr;
 }
 
-.club-grid{
+.fivecol-grid{
     display: grid;
-    gap: 1.5rem;
-    padding: 1rem;
-    grid-template-columns: 
-         1fr 1fr 1fr 1fr;
-}
-
-.player-grid{
-    display: grid;
-    
     gap: 1.5rem;
     padding: 1rem;
     grid-template-columns: 
          repeat(5,1fr) ;
 }
 
-.playerclub-grid{
-    display: grid;
-    gap: 1.5rem;
-    padding: 1rem;
-    grid-template-columns: 
-        repeat(3, 1fr)
-}
 
 .gridspan2{
     grid-column: span 2;
-}
-
-.internationalaward-grid{
-    display: grid;
-    gap: 1.5rem;
-    padding: 1rem;
-    grid-template-columns: 
-        repeat(2, 1fr)
 }

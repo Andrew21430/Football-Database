@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block content %}
 {% set seen= ['no']%}
-<main class="playerclub-grid">
+<main class="threecol-grid">
     {% for player in results %}
         {%- if seen[-1] == player[0] -%}
             <article>
@@ -10,7 +10,7 @@
                 </div>
             </article>
             <article>
-                    <img class="playerimg" src=static/images/website/player/{{player[3]}}.png>
+                    <img class="standardimg" src=static/images/website/player/{{player[3]}}.png>
             </article>
             <article>
                 <p>{{player[4]}}</p>

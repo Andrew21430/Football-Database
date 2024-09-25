@@ -54,6 +54,7 @@ def update_data(table, coullum1, coullum2, item1, item2, referance):
     db = sqlite3.connect(DATABASE)
     cursor = db.cursor()
     cursor.execute(increase_sql, (item1, item2))
+    # convert string number given to an int then back to str for sql
     increase = cursor.fetchall()[0]
     addtion = int(increase[0]) + 1
     add = str(addtion)
@@ -136,9 +137,6 @@ def update_apperances(table, coullum1, coullum2, referance, item1):
             cursor.execute(sql)
             db.commit()
             db.close()
-            print("/// updated apperance ///")
-        else:
-            pass
 
 
 # this will remove the first digit from an interger
@@ -166,12 +164,12 @@ def update_total_apperances(table, coullum1, referance):
                 print(count)
         interapp = f"SELECT {referance}s FROM international_apperances WHERE {coullum1} = ?;"
         cursor.execute(interapp, (i,))
-        intapp = cursor.fetchone()
-        print(intapp)
-        if intapp is None:
+        international_apperances = cursor.fetchone()
+        print(international_apperances)
+        if international_apperances is None:
             pass
         else:
-            totalapp = count + intapp[0]
+            totalapp = count + international_apperances[0]
         print(totalapp)
         # final update
         sql = f"UPDATE Player SET total_apperances = {totalapp} WHERE {coullum1} = {i};"
@@ -202,7 +200,9 @@ def player():
     # resqut the data reseived rom the form eg player=2
     player = str(request.get_data('player'))
     # delcaring all sql statments used
-    query = 'SELECT Player.player, Club.club, Player.total_apperances, International.country, Player.photo, Player.player_id FROM Player INNER JOIN Club ON Player.club_id = Club.club_id INNER JOIN International ON Player.international_id = International.international_id'
+    query = 'SELECT Player.player, Club.club, Player.total_apperances, International.country, Player.photo, Player.player_id\
+        FROM Player INNER JOIN Club ON Player.club_id = Club.club_id\
+        INNER JOIN International ON Player.international_id = International.international_id'
     where = query
     where += ' WHERE Player.player_id =?'
     order = query
@@ -239,7 +239,8 @@ def player():
 @app.route('/club', methods=['GET', 'POST'])
 def club():
     club = str(request.get_data('club'))
-    query = 'SELECT Club.club_id, Club.club, Club.description, League.league, Club.emblem FROM Club INNER JOIN League ON Club.league_id = League.League_id'
+    query = 'SELECT Club.club_id, Club.club, Club.description, League.league, Club.emblem FROM Club\
+        INNER JOIN League ON Club.league_id = League.League_id'
     where = query
     where += ' WHERE Club.club_id =?'
     order = query
@@ -298,7 +299,10 @@ def clubaward():
     seen = ['no']
     # long sql querry as a bridge table is used along with
     # multiple forms of ordering
-    query = "SELECT Award.award, Award.award_photo, Club.club, Club_award.count FROM Club_Award INNER JOIN Award ON Club_Award.award_id = Award.award_id INNER JOIN Club ON Club_Award.club_id = Club.club_id ORDER BY Club_Award.award_id ASC, Club_Award.count DESC, Club.club ASC;"
+    query = "SELECT Award.award, Award.award_photo, Club.club, Club_award.count\
+        FROM Club_Award INNER JOIN Award ON Club_Award.award_id = Award.award_id \
+        INNER JOIN Club ON Club_Award.club_id = Club.club_id\
+        ORDER BY Club_Award.award_id ASC, Club_Award.count DESC, Club.club ASC;"
     return render_template("club_awards.html", seen=seen, results=sqlsetup(query))
 
 
@@ -307,7 +311,10 @@ def clubaward():
 @app.route('/playeraward')
 def playeraward():
     seen = ['no']
-    query = "SELECT Award.award, Award.award_photo, Player.player, Player_Award.count FROM Player_Award INNER JOIN Award ON Player_Award.award_id = Award.award_id INNER JOIN Player ON Player_Award.player_id = Player.player_id ORDER BY Player_Award.award_id ASC, Player_Award.count DESC, Player.player ASC;"
+    query = "SELECT Award.award, Award.award_photo, Player.player, Player_Award.count\
+        FROM Player_Award INNER JOIN Award ON Player_Award.award_id = Award.award_id\
+        INNER JOIN Player ON Player_Award.player_id = Player.player_id\
+        ORDER BY Player_Award.award_id ASC, Player_Award.count DESC, Player.player ASC;"
     return render_template("playeraward.html", seen=seen, results=sqlsetup(query))
 
 
@@ -436,7 +443,10 @@ def award():
 def playerclubs():
     seen = ['test']
     return render_template("playerclubs.html", seen=seen, results=sqlsetup(
-        """SELECT Club.club, Club.emblem, Player.player, Player.photo, club_apperances.apperance From club_apperances INNER JOIN Club on club_apperances.club_id = Club.club_id INNER JOIN Player ON club_apperances.player_id = Player.player_id ORDER BY Club.club ASC;
+        """SELECT Club.club, Club.emblem, Player.player, Player.photo, club_apperances.apperance\
+            FROM club_apperances INNER JOIN Club on club_apperances.club_id = Club.club_id\
+            INNER JOIN Player ON club_apperances.player_id = Player.player_id\
+            ORDER BY Club.club ASC;
         """))
 
 
@@ -445,12 +455,10 @@ def internationalawards():
     seen = ['test']
     return render_template(
         "internationalaward.html", seen=seen, results=sqlsetup(
-            """SELECT Award.award, Award.award_photo, International.country,
-            International_Award.count FROM International_Award INNER JOIN
-            Award on International_Award.award_id = Award.award_id INNER JOIN
-            International ON International_Award.international_id =
-            International.International_id ORDER BY
-            International_award.award_id ASC, International_Award.count DESC;
+            """SELECT Award.award, Award.award_photo, International.country, International_Award.count\
+                FROM International_Award INNER JOIN Award ON International_Award.award_id = Award.award_id\
+                INNER JOIN International ON International_Award.international_id = International.International_id\
+                ORDER BY International_award.award_id ASC, International_Award.count DESC;
             """))
 
 
@@ -459,13 +467,10 @@ def internationalapperances():
     seen = ['test']
     return render_template(
         "internationalapperances.html", seen=seen, results=sqlsetup("""
-        SELECT International.country, International.flag, Player.player,
-        Player.photo, International_apperances.apperances FROM
-        International_apperances INNER JOIN Player on
-        International_apperances.player_id = Player.player_id INNER JOIN
-        International ON International_apperances.international_id =
-        International.International_id ORDER BY International.country ASC,
-        International_apperances.apperances DESC;"""))
+            SELECT International.country, International.flag, Player.player, Player.photo, International_apperances.apperances\
+            FROM International_apperances INNER JOIN Player on International_apperances.player_id = Player.player_id\
+            INNER JOIN International ON International_apperances.international_id = International.International_id\
+            ORDER BY International.country ASC, International_apperances.apperances DESC;"""))
 
 
 @app.route('/addnewgame', methods=['GET', 'POST'])
@@ -476,7 +481,8 @@ def addnewgame():
     awardwhere += " WHERE award_id =?"
     club1 = str(request.get_data('club1'))
     club2 = str(request.get_data('club2'))
-    clubquery = 'SELECT Club.club_id, Club.club, Club.description, League.league, Club.emblem FROM Club INNER JOIN League ON Club.league_id = League.League_id'
+    clubquery = 'SELECT Club.club_id, Club.club, Club.description, League.league, Club.emblem FROM Club\
+        INNER JOIN League ON Club.league_id = League.League_id'
     clubwhere = clubquery
     clubwhere += ' WHERE Club.club_id =?'
     cluborder = clubquery
