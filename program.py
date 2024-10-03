@@ -47,7 +47,6 @@ def spliter(data):
 # referance = a referance coullum in the database used for the where statement
 # that will actual update
 def update_data(table, coullum1, coullum2, item1, item2, referance):
-    print(f"{table}\n{coullum1}\n{coullum2}\n{item1}\n{item2}\n{referance}")
     # find the original value for what we are going to increase by 1
     increase_sql = f"SELECT {referance} FROM {table} WHERE {coullum1} = ? and {coullum2} = ?;"
     # gain orginal number
@@ -76,7 +75,6 @@ def update_data(table, coullum1, coullum2, item1, item2, referance):
 # item 1,2 = the other two values in the complex many to many
 # eg. club id and award id
 def add_data(table, coullum1, coullum2, coullum3, item1, item2):
-    print(f"{table}\n{coullum1}\n{coullum2}\n{coullum3}\n{item1}\n{item2}")
     db = sqlite3.connect(DATABASE)
     cursor = db.cursor()
     # sql query to insert the new data into the databse
@@ -104,7 +102,6 @@ def check_data(table, coullum1, coullum2, item1, item2):
 # uppdate apperances needs one less data entry then update data
 # so a new function is needed
 def update_apperances(table, coullum1, coullum2, referance, item1):
-    print(f"{table}\n{coullum1}\n{coullum2}\n{item1}\n{referance}")
     # find the original value for what we are going to increase by 1
     increase_sql = f"SELECT {coullum2}, {referance} FROM {table} WHERE {coullum1} = ?;"
     # gain orginal number
