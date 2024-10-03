@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block content %}
 {% set seen= ['no']%}
-<main class="twocol-grid">
+<main class="two_col-grid">
     {% for tropies in results %}
         {%- if seen[-1] == tropies[0] -%}
             <article>

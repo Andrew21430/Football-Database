@@ -10,7 +10,7 @@
     </select><br><br>
     <input type="submit">
     </form>
-<main class="fivecol-grid">
+<main class="five_col-grid">
     <article><p>Name</p></article>
     <article><p>Current Club</p></article>
     <article><p>Photo</p></article>
@@ -35,7 +35,7 @@
     {%- endfor -%}
 </main>
 {% set seen= ['no']%}
-<main class ="twocol-grid">
+<main class ="two_col-grid">
     {%- for player_award in player_award_list -%}
         {%- if seen[-1] == player_award[0] -%}
             <article>
@@ -74,7 +74,7 @@
 
 </main>
 {% set seen= ['no']%}
-<main class="threecol-grid">
+<main class="three_col-grid">
     {% for player_club in player_club_list %}
         {%- if seen[-1] == player_club[0] -%}
             <article>

@@ -194,30 +194,30 @@ ul li:hover ul.dropdown {
 }
 
 .standardimg:hover{
-    transform: scale(2);
+    transform: scale(2.5);
 }
 /* grid size declerations*/
 /* New grid trial for player award formating */
 
-.twocol-grid{
+.two_col-grid{
     display: grid;
-    gap: 1.5rem;
+    gap: 0rem;
     padding: 1rem;
     grid-template-columns: 
         repeat(2, 1fr)
 }
 
-.fourcol-grid{
+.four_col-grid{
     display: grid;
-    gap: 1.5rem;
+    gap: 0rem;
     padding: 1rem;
     grid-template-columns: 
         repeat(4, 1fr)
 }
 
-.threecol-grid{
+.three_col-grid{
     display: grid;
-    gap: 1.5rem;
+    gap: 0rem;
     padding: 1rem;
     grid-template-columns: 
          1fr 1fr 1fr;
@@ -231,17 +231,48 @@ ul li:hover ul.dropdown {
          100px 1fr 1fr 1fr;
 }
 
-.fivecol-grid{
+.five_col-grid{
     display: grid;
-    gap: 1.5rem;
+    gap: 0rem;
     padding: 1rem;
     grid-template-columns: 
          repeat(5,1fr) ;
 }
 
-.fivecol-grid:nth-of-type(odd) {background: #e04444 !important;}
-.fivecol-grid:nth-of-type(even) {background: #efefef !important;}
 
 .gridspan2{
     grid-column: span 2;
 }
+/*
+alternating grid colours 
+*/
+.five_col-grid>article:nth-child(10n+1),
+.five_col-grid>article:nth-child(10n+2),
+.five_col-grid>article:nth-child(10n+3),
+.five_col-grid>article:nth-child(10n+4),
+.five_col-grid>article:nth-child(10n+5)
+{
+    background-color: rgb(173, 219, 159);
+}
+
+.four_col-grid>article:nth-child(8n+1),
+.four_col-grid>article:nth-child(8n+2),
+.four_col-grid>article:nth-child(8n+3),
+.four_col-grid>article:nth-child(8n+4)
+{
+    background-color: rgb(173, 219, 159);
+}
+
+.three_col-grid>article:nth-child(6n+1),
+.three_col-grid>article:nth-child(6n+2),
+.three_col-grid>article:nth-child(6n+3)
+{
+    background-color: rgb(173, 219, 159);
+}
+
+.two_col-grid>article:nth-child(4n+1),
+.two_col-grid>article:nth-child(4n+2)
+{
+    background-color: rgb(173, 219, 159);
+}
+

@@ -10,7 +10,7 @@
         </select><br><br>
         <input type="submit">
     </form>
-    <main class="threecol-grid">
+    <main class="three_col-grid">
         <article><p>Country</p></article>
         <article><p>Flag</p></article>
         <article><p>Description</p></article>
@@ -26,7 +26,7 @@
                 </article>
         {%- endfor -%}
     </main>
-    <main class="threecol-grid">
+    <main class="three_col-grid">
     {% set seen= ['no']%}
     {% for player_international in player_international_list %}
         {%- if seen[-1] == player_international[0] -%}
@@ -70,7 +70,7 @@
     {% endfor %}
     </main> 
     {% set seen= ['no']%}
-    <main class="twocol-grid">
+    <main class="two_col-grid">
         {% for international_award in international_award_list %}
             {%- if seen[-1] == international_award[0] -%}
                 <article>

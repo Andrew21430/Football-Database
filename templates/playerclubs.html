@@ -1,7 +1,7 @@
 {% extends 'layout.html' %}
 {% block content %}
 {% set seen= ['no']%}
-<main class="threecol-grid">
+<main class="three_col-grid">
     {% for player in results %}
         {%- if seen[-1] == player[0] -%}
             <article>
