@@ -58,10 +58,8 @@ def update_data(table, coullum1, coullum2, item1, item2, referance):
     increase = cursor.fetchall()[0]
     addtion = int(increase[0]) + 1
     add = str(addtion)
-    print(add)
     # sql query to update the value
     sql = f"UPDATE {table} SET {referance} = {add} WHERE {coullum1} = {item1} and {coullum2} = {item2};"
-    print(sql)
     # complete the update
     # connect to the databse
     db = sqlite3.connect(DATABASE)
@@ -83,7 +81,6 @@ def add_data(table, coullum1, coullum2, coullum3, item1, item2):
     cursor = db.cursor()
     # sql query to insert the new data into the databse
     sql = f"INSERT INTO {table} ({coullum1}, {coullum2}, {coullum3}) VALUES (?, ?, ?);"
-    print(sql)
     cursor.execute(sql, (item1, item2, 1))
     db.commit()
     db.close()
@@ -99,10 +96,8 @@ def check_data(table, coullum1, coullum2, item1, item2):
     db = sqlite3.connect(DATABASE)
     cursor = db.cursor()
     sql = f"SELECT * FROM {table} WHERE {coullum1} = ? and {coullum2} = ?;"
-    print(sql)
     cursor.execute(sql, (item1, item2))
     results = cursor.fetchall()
-    print(results)
     return results
 
 
@@ -157,40 +152,43 @@ def update_total_apperances(table, coullum1, referance):
         count = 0
         cursor.execute(increase_sql, (i,))
         increase = cursor.fetchall()
-        print(increase)
         for item in increase:
             for next in range(0, len(item)):
                 count += item[next]
-                print(count)
-        interapp = f"SELECT {referance}s FROM international_apperances WHERE {coullum1} = ?;"
-        cursor.execute(interapp, (i,))
+        international_apperances_sql = f"SELECT {referance}s FROM international_apperances WHERE {coullum1} = ?;"
+        cursor.execute(international_apperances_sql, (i,))
         international_apperances = cursor.fetchone()
-        print(international_apperances)
         if international_apperances is None:
             pass
         else:
-            totalapp = count + international_apperances[0]
-        print(totalapp)
+            total_apppperances = count + international_apperances[0]
         # final update
-        sql = f"UPDATE Player SET total_apperances = {totalapp} WHERE {coullum1} = {i};"
+        sql = f"UPDATE Player SET total_apperances = {total_apppperances} WHERE {coullum1} = {i};"
         cursor.execute(sql)
         db.commit()
+
+
+# results = the final result of the statement that will get returned
+# statemnt = the sql statement with a single where
+# split = spliter form of original
+def sql_where(results, statement, split):
+    db = sqlite3.connect(DATABASE)
+    cursor = db.cursor()
+    for i in range(0, len(split)):
+        cursor.execute(statement, (split[i],))
+        # ad each result to results as a new item in the list
+        add = cursor.fetchall()
+        results.extend(add)
+    return results
 
 
 '''Start of webpages '''
 
 
+
 @app.route('/')
 def homepage():
-    # variable declaration for each sql querry values
-    # that get used for each page
-    query = "SELECT * FROM Player;"
-    return render_template("index.html", results=sqlsetup(query))
-
-
-@app.route('/about')
-def about():
-    return render_template("about.html")
+    return render_template("index.html")
 
 
 # the players page as a submition for so we need to check and see if any
@@ -207,32 +205,48 @@ def player():
     where += ' WHERE Player.player_id =?'
     order = query
     order += ' ORDER BY Player.player ASC'
+    player_award = "SELECT Award.award, Award.award_photo, Player.player, Player_Award.count\
+        FROM Player_Award INNER JOIN Award ON Player_Award.award_id = Award.award_id\
+        INNER JOIN Player ON Player_Award.player_id = Player.player_id\
+        WHERE Player.player_id = ?\
+        ORDER BY Player_Award.award_id ASC, Player_Award.count DESC, Player.player ASC;"
+    player_club = "SELECT Club.club, Club.emblem, Player.player, Player.photo, club_apperances.apperance\
+            FROM club_apperances INNER JOIN Club on club_apperances.club_id = Club.club_id\
+            INNER JOIN Player ON club_apperances.player_id = Player.player_id\
+            WHERE Player.player_id = ?\
+            ORDER BY Club.club ASC;"
+    player_international = "SELECT International.country, International.flag, Player.player, Player.photo, International_apperances.apperances\
+            FROM International_apperances INNER JOIN Player on International_apperances.player_id = Player.player_id\
+            INNER JOIN International ON International_apperances.international_id = International.International_id\
+            WHERE Player.player_id = ?\
+            ORDER BY International.country ASC, International_apperances.apperances DESC;"
     # if we do reseve a value from the form
     if request.method == 'POST':
         # database connection
-        db = sqlite3.connect(DATABASE)
-        cursor = db.cursor()
         # creates results as a list so we can loop through our results and
         # then add them into results
-        results = []
+        player_list = []
+        player_award_list = []
+        player_club_list = []
+        player_international_list = []
         # runs the splitter function to seperate all our values to just numbers
-        splitplayer = spliter(player)
+        split_player = spliter(player)
         # checks if a response is actual given to the form and
         # if it is blank, the full list will be displayed instead of nothing
-        if splitplayer == ['']:
-            return render_template("player.html", results=sqlsetup(order), fulllist=sqlsetup(order))
+        if split_player == ['']:
+            return render_template("player.html", results=sqlsetup(order), full_list=sqlsetup(order))
         else:
-            # loop thourgh all the results we got
-            for i in range(0, len(spliter(player))):
-                cursor.execute(where, (splitplayer[i],))
-                # ad each result to results as a new item in the list
-                add = cursor.fetchall()
-                results.extend(add)
+            seen = ['no']
+            # gain the list of players using the sql_where function
+            player_list = sql_where(player_list, where, split_player)
+            player_award_list = sql_where(player_award_list, player_award, split_player)
+            player_club_list = sql_where(player_club_list, player_club, split_player)
+            player_international_list = sql_where(player_international_list, player_international, split_player)
             # fulllist is the full sql database for use in the selection boxes
             return render_template(
-                "player.html", results=results, fulllist=sqlsetup(order), size=len(results))
+                "player.html", results=player_list, full_list=sqlsetup(order), size=len(player_list), player_award_list=player_award_list, player_club_list=player_club_list, player_international_list=player_international_list, seen=seen)
     else:
-        return render_template("player.html", results=sqlsetup(order), fulllist=sqlsetup(order))
+        return render_template("player.html", results=sqlsetup(order), full_list=sqlsetup(order))
 
 
 # Club page re-uses the formating from the player table
@@ -245,24 +259,33 @@ def club():
     where += ' WHERE Club.club_id =?'
     order = query
     order += ' ORDER BY Club.club ASC'
+    player_club = "SELECT Club.club, Club.emblem, Player.player, Player.photo, club_apperances.apperance\
+        FROM club_apperances INNER JOIN Club on club_apperances.club_id = Club.club_id\
+        INNER JOIN Player ON club_apperances.player_id = Player.player_id\
+        WHERE Club.club_id = ?\
+        ORDER BY Club.club ASC;"
+    club_award = "SELECT Award.award, Award.award_photo, Club.club, Club_award.count\
+        FROM Club_Award INNER JOIN Award ON Club_Award.award_id = Award.award_id \
+        INNER JOIN Club ON Club_Award.club_id = Club.club_id\
+        WHERE Club.club_id = ?\
+        ORDER BY Club_Award.award_id ASC, Club_Award.count DESC, Club.club ASC;"
     if request.method == 'POST':
-        splitclub = spliter(club)
-        print(splitclub)
-        db = sqlite3.connect(DATABASE)
-        cursor = db.cursor()
-        results = []
+        split_club = spliter(club)
+        club_list = []
+        player_club_list = []
+        club_award_list = []
         # checks if a response is actual given to the form and
         # if it is blank, the full list will be displayed instead of nothing
-        if splitclub == ['']:
-            return render_template("club.html", results=sqlsetup(order), fulllist=sqlsetup(order))
+        if split_club == ['']:
+            return render_template("club.html", results=sqlsetup(order), full_list=sqlsetup(order))
         else:
-            for i in range(0, len(splitclub)):
-                cursor.execute(where, (splitclub[i],))
-                add = cursor.fetchall()
-                results.extend(add)
-            return render_template("club.html", results=results, fulllist=sqlsetup(order), size=len(results))
+            seen = ['no']
+            club_list = sql_where(club_list, where, split_club)
+            club_award_list = sql_where(club_award_list, club_award, split_club)
+            player_club_list = sql_where(player_club_list, player_club, split_club)
+            return render_template("club.html", results=club_list, full_list=sqlsetup(order), size=len(club_list), club_award_list=club_award_list, player_club_list=player_club_list, seen=seen)
     else:
-        return render_template("club.html", results=sqlsetup(order), fulllist=sqlsetup(order))
+        return render_template("club.html", results=sqlsetup(order), full_list=sqlsetup(order))
 
 
 # Same with International
@@ -274,21 +297,32 @@ def international():
     where += ' WHERE international_id = ?'
     order = query
     order += ' ORDER BY country ASC'
+    player_international = "SELECT International.country, International.flag, Player.player, Player.photo, International_apperances.apperances\
+            FROM International_apperances INNER JOIN Player on International_apperances.player_id = Player.player_id\
+            INNER JOIN International ON International_apperances.international_id = International.International_id\
+            WHERE International.international_id = ?\
+            ORDER BY International.country ASC, International_apperances.apperances DESC;"
+    international_award = "SELECT Award.award, Award.award_photo, International.country, International_Award.count\
+                    FROM International_Award INNER JOIN Award ON International_Award.award_id = Award.award_id\
+                    INNER JOIN International ON International_Award.international_id = International.International_id\
+                    WHERE International.international_id = ?\
+                    ORDER BY International_award.award_id ASC, International_Award.count DESC;"
     if request.method == 'POST':
-        splitinternational = spliter(international)
-        if splitinternational == ['']:
-            return render_template("international.html", results=sqlsetup(order), fulllist=sqlsetup(order))
+        split_international = spliter(international)
+        if split_international == ['']:
+            return render_template("international.html", results=sqlsetup(order), full_list=sqlsetup(order))
         else:
-            db = sqlite3.connect(DATABASE)
-            cursor = db.cursor()
-            results = []
-            for i in range(0, len(splitinternational)):
-                cursor.execute(where, (splitinternational[i],))
-                add = cursor.fetchall()
-                results.extend(add)
-            return render_template("international.html", results=results, fulllist=sqlsetup(order), size=len(results))
+            international_list = []
+            player_international_list = []
+            international_award_list = []
+            seen = ['no']
+            international_list = sql_where(international_list, where, split_international)
+            player_international_list = sql_where(player_international_list, player_international, split_international)
+            international_award_list = sql_where(international_award_list, international_award, split_international)
+
+            return render_template("international.html", results=international_list, full_list=sqlsetup(order), size=len(international_list), seen=seen, player_international_list=player_international_list, international_award_list=international_award_list)
     else:
-        return render_template("international.html", results=sqlsetup(order), fulllist=sqlsetup(order))
+        return render_template("international.html", results=sqlsetup(order), full_list=sqlsetup(order))
 
 
 # listing out the amount of times an award has been won by clubs
@@ -416,25 +450,43 @@ def award():
     query = "SELECT * FROM Award"
     where = query
     where += " WHERE award_id =?"
+    club_award ="SELECT Award.award, Award.award_photo, Club.club, Club_award.count\
+        FROM Club_Award INNER JOIN Award ON Club_Award.award_id = Award.award_id \
+        INNER JOIN Club ON Club_Award.club_id = Club.club_id\
+        WHERE Award.award_id = ?\
+        ORDER BY Club_Award.award_id ASC, Club_Award.count DESC, Club.club ASC;"
+    international_award = "SELECT Award.award, Award.award_photo, International.country, International_Award.count\
+                FROM International_Award INNER JOIN Award ON International_Award.award_id = Award.award_id\
+                INNER JOIN International ON International_Award.international_id = International.International_id\
+                WHERE Award.award_id = ?\
+                ORDER BY International_award.award_id ASC, International_Award.count DESC;"
+    player_award = "SELECT Award.award, Award.award_photo, Player.player, Player_Award.count\
+        FROM Player_Award INNER JOIN Award ON Player_Award.award_id = Award.award_id\
+        INNER JOIN Player ON Player_Award.player_id = Player.player_id\
+        WHERE Award.award_id = ?\
+        ORDER BY Player_Award.award_id ASC, Player_Award.count DESC, Player.player ASC;"
     # full list of data
     data = sqlsetup(query)
     if request.method == 'POST':
-        splittrophy = spliter(trophy)
-        db = sqlite3.connect(DATABASE)
-        cursor = db.cursor()
-        results = []
+        split_trophy = spliter(trophy)
+        award_list = []
+        club_award_list = []
+        international_award_list = []
+        player_award_list = []
+        seen = ['no']
         # checks if a response is actual given to the form and
         # if it is blank, the full list will be displayed instead of nothing
-        if splittrophy == ['']:
-            return render_template("award.html", results=sqlsetup(query), fulllist=sqlsetup(query))
+        if split_trophy == ['']:
+            return render_template("award.html", results=sqlsetup(query), full_list=sqlsetup(query))
         else:
-            for i in range(0, len(splittrophy)):
-                cursor.execute(where, (splittrophy[i],))
-                add = cursor.fetchall()
-                results.extend(add)
-            return render_template("award.html", results=results, fulllist=data, size=len(results))
+            award_list = sql_where(award_list, where, split_trophy)
+            player_award_list = sql_where(player_award_list, player_award, split_trophy)
+            club_award_list = sql_where(club_award_list, club_award, split_trophy)
+            international_award_list = sql_where(international_award_list, international_award, split_trophy)
+            return render_template(
+                "award.html", results=award_list, full_list=data, size=len(award_list), seen=seen, player_award_list=player_award_list, international_award_list=international_award_list, club_award_list=club_award_list)
     else:
-        return render_template("award.html", results=data, fulllist=data)
+        return render_template("award.html", results=data, full_list=data)
 
 
 # listing out all the players who a have played for a club and how,
@@ -476,55 +528,60 @@ def internationalapperances():
 @app.route('/addnewgame', methods=['GET', 'POST'])
 def addnewgame():
     award = str(request.get_data('trophies'))
-    awardquery = "SELECT * FROM Award"
-    awardwhere = awardquery
-    awardwhere += " WHERE award_id =?"
+    award_query = "SELECT * FROM Award"
+    award_where = award_query
+    award_where += " WHERE award_id =?"
     club1 = str(request.get_data('club1'))
     club2 = str(request.get_data('club2'))
-    clubquery = 'SELECT Club.club_id, Club.club, Club.description, League.league, Club.emblem FROM Club\
+    club_query = 'SELECT Club.club_id, Club.club, Club.description, League.league, Club.emblem FROM Club\
         INNER JOIN League ON Club.league_id = League.League_id'
-    clubwhere = clubquery
-    clubwhere += ' WHERE Club.club_id =?'
-    cluborder = clubquery
-    cluborder += ' ORDER BY Club.club ASC'
+    club_where = club_query
+    club_where += ' WHERE Club.club_id =?'
+    club_order = club_query
+    club_order += ' ORDER BY Club.club ASC'
     if request.method == "POST":
-        print(award + "\n" + club1 + "\n" + club2)
-        print(type(award))
         checking = award.split("&")
-        print(checking)
         # check and see if the game is being played for an award
+        if len(checking) <= 0:
+            update_total_apperances("club_apperances", "player_id", "apperance")
+            return render_template('addnewgame.html', submit='no', testing='yes', award_list=sqlsetup(award_query), club_list=sqlsetup(club_order))
+        if len(checking) == 1:
+            update_total_apperances("club_apperances", "player_id", "apperance")
+            return render_template('addnewgame.html', submit='no', testing='yes', award_list=sqlsetup(award_query), club_list=sqlsetup(club_order))
+        if len(checking) >= 4:
+            update_total_apperances("club_apperances", "player_id", "apperance")
+            return render_template('addnewgame.html', submit='no', testing='yes', award_list=sqlsetup(award_query), club_list=sqlsetup(club_order))
         if len(checking) == 2:
             # split the data into the individual values
-            splitclub1 = spliter(club1)
-            splitclub2 = spliter(club2)
+            split_club1 = spliter(club1)
+            split_club2 = spliter(club2)
             # remove the extra digit added
-            clubone = remover(splitclub1[0])
-            clubtwo = remover(splitclub2[1])
+            club_one = remover(split_club1[0])
+            club_two = remover(split_club2[1])
         else:
             # split our responses to pure number values to be used to update
             # all the data needed
-            splitaward = spliter(award)
-            splitclub1 = spliter(club1)
-            splitclub2 = spliter(club2)
-            print(splitaward, "\n", splitclub1, "\n", splitclub2)
+            split_award = spliter(award)
+            split_club1 = spliter(club1)
+            split_club2 = spliter(club2)
             # remove the extra digit added from form
-            clubone = remover(splitclub1[1])
-            clubtwo = remover(splitclub2[2])
+            club_one = remover(split_club1[1])
+            club_two = remover(split_club2[2])
             # check to see if the winer club has already one that thropy before
-            if len(check_data("Club_Award", "club_id", "award_id", clubone, splitaward[0])) == 0:
+            if len(check_data("Club_Award", "club_id", "award_id", club_one, split_award[0])) == 0:
                 # adds a new data entry with the count of 1 to the Club_Award
-                add_data("Club_Award", "club_id", "award_id", "count", clubone, splitaward[0])
+                add_data("Club_Award", "club_id", "award_id", "count", club_one, split_award[0])
             else:
                 # increases the count number by one for that club winning
                 # that award
-                update_data("Club_Award", "club_id", "award_id", clubone, splitaward[0], "count")
-        update_apperances("club_apperances", "club_id", "player_id", "apperance", clubone)
-        update_apperances("club_apperances", "club_id", "player_id", "apperance", clubtwo)
+                update_data("Club_Award", "club_id", "award_id", club_one, split_award[0], "count")
+        update_apperances("club_apperances", "club_id", "player_id", "apperance", club_one)
+        update_apperances("club_apperances", "club_id", "player_id", "apperance", club_two)
         update_total_apperances("club_apperances", "player_id", "apperance")
-        return render_template('addnewgame.html', sumbit='yes', testing='yes', awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
+        return render_template('addnewgame.html', sumbit='yes', testing='yes', award_list=sqlsetup(award_query), club_list=sqlsetup(club_order))
     else:
         update_total_apperances("club_apperances", "player_id", "apperance")
-        return render_template('addnewgame.html', submit='no', testing='yes', awardlist=sqlsetup(awardquery), clublist=sqlsetup(cluborder))
+        return render_template('addnewgame.html', submit='no', testing='yes', award_list=sqlsetup(award_query), club_list=sqlsetup(club_order))
 
 
 if __name__ == "__main__":
