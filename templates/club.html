@@ -4,7 +4,7 @@
     <form action="/club" method="post">
         <label for="club">Choose a club(s):</label>
         <select id="club" name="club" size="10" multiple>
-            {%- for club in fulllist -%}
+            {%- for club in full_list -%}
                 <option value="{{club[0]}}">{{club[1]}}</option>
             {%- endfor -%}
         </select><br><br>
@@ -32,5 +32,86 @@
             
         {%- endfor -%}
     </main>
+    {% set seen= ['no']%}
+<main class ="twocol-grid">
+    {%- for club_award in club_award_list -%}
+        {%- if seen[-1] == club_award[0] -%}
+            <article>
+                <div>
+                    <p>{{club_award[2]}}</p>
+                </div>
+            </article>
+            <article>
+                <div>
+                    <p>{{club_award[3]}}</p>
+                </div>
+            </article>
+        {% else %}
+            <article>
+                <div>
+                    <h1>{{club_award[0]}} </h1></div>
+            </article>
+            <article>
+                <img class="standardimg" src=static/images/website/Awards/{{club_award[1]}}>
+            </article>
+            <article><p>Club</p></article>
+            <article><p>Total Awarded</p></article>
+            <article>
+                <div>
+                    <p>{{club_award[2]}}</p>
+                </div>
+            </article>
+            <article>
+                <div>
+                    <p>{{club_award[3]}} </p>
+                </div>
+            </article>
+            {%- set seen = seen.append(club_award[0]) %}
+        {% endif %}    
+    {% endfor %}
+{% set seen= ['no']%}
+</main>
+<main class="threecol-grid">
+    {% for player_club in player_club_list %}
+        {%- if seen[-1] == player_club[0] -%}
+            <article>
+                <div>
+                    <p>{{player_club[2]}}</p>
+                </div>
+            </article>
+            <article>
+                    <img class="standardimg" src=static/images/website/player/{{player_club[3]}}.png>
+            </article>
+            <article>
+                <p>{{player_club[4]}}</p>
+            </article>
+        {% else %}
+            <article>
+                <div>
+                    <h1>{{player_club[0]}} </h1></div>
+            </article>
+            <article>
+                <img class="clubimg" src=static/images/website/emblem/{{player_club[1]}}.png>
+            </article>
+            <article>
+                <div>
+                    <h1>Appearances</h1>
+                </div>
+            </article>
+            <article>
+                <div>
+                    <p>{{player_club[2]}}</p>
+                </div>
+            </article>
+            <article>
+                    <img class="standardimg" src=static/images/website/player/{{player_club[3]}}.png>
+            </article>
+            <article>
+                <p>{{player_club[4]}}</p>
+            </article>
+            {%- set seen = seen.append(player_club[0]) %}
+        {% endif %}    
+    {% endfor %}
+</main>
     {% endblock %}
 </main>

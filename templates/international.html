@@ -4,7 +4,7 @@
     <form action="/international" method="post">
         <label for="international">Choose a contry(s):</label>
         <select id="international" name="international" size="10" multiple>
-            {%- for international in fulllist -%}
+            {%- for international in full_list -%}
                 <option value="{{international[0]}}">{{international[1]}}</option>
             {%- endfor -%}
         </select><br><br>
@@ -24,9 +24,89 @@
                 <article>
                     <p>{{international[2]}}</p>
                 </article>
-    
-            
         {%- endfor -%}
-    </main>    
+    </main>
+    <main class="threecol-grid">
+    {% set seen= ['no']%}
+    {% for player_international in player_international_list %}
+        {%- if seen[-1] == player_international[0] -%}
+            <article>
+                <div>
+                    <p>{{player_international[2]}}</p>
+                </div>
+            </article>
+            <article>
+                    <img class="standardimg" src=static/images/website/player/{{player_international[3]}}.png>
+            </article>
+            <article>
+                <p>{{player_international[4]}}</p>
+            </article>
+        {% else %}
+            <article>
+                <div>
+                    <h1>{{player_international[0]}} </h1></div>
+            </article>
+            <article>
+                <img class="internationalimg" src=static/images/website/Flags/{{player_international[1]}}.png>
+            </article>
+            <article>
+                <div>
+                    <h1>Appearances</h1>
+                </div>
+            </article>
+            <article>
+                <div>
+                    <p>{{player_international[2]}}</p>
+                </div>
+            </article>
+            <article>
+                    <img class="standardimg" src=static/images/website/player/{{player_international[3]}}.png>
+            </article>
+            <article>
+                <p>{{player_international[4]}}</p>
+            </article>
+            {%- set seen = seen.append(player_international[0]) %}
+        {% endif %}    
+    {% endfor %}
+    </main> 
+    {% set seen= ['no']%}
+    <main class="twocol-grid">
+        {% for international_award in international_award_list %}
+            {%- if seen[-1] == international_award[0] -%}
+                <article>
+                    <div>
+                        <p>{{international_award[2]}}</p>
+                    </div>
+                </article>
+                <article>
+                    <div>
+                        <p>{{international_award[3]}}</p>
+                    </div>
+                </article>
+            {% else %}
+                <article>
+                    <div>
+                        <h1>{{international_award[0]}} </h1></div>
+                </article>
+                <article>
+                    <img class="standardimg" src=static/images/website/Awards/{{international_award[1]}}>
+                </article>
+                <article><p>Country</p></article>
+                <article><p>Total Awarded</p></article>
+                <article>
+                    <div>
+                        <p>{{international_award[2]}}</p>
+                    </div>
+                </article>
+                <article>
+                    <div>
+                        <p>{{international_award[3]}} </p>
+                    </div>
+                </article>
+                {%- set seen = seen.append(international_award[0]) %}
+            {% endif %}    
+    
+        {% endfor %}
+    </main>   
 {% endblock %}
 </main>
