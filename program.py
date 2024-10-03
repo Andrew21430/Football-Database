@@ -528,9 +528,9 @@ def internationalapperances():
 @app.route('/addnewgame', methods=['GET', 'POST'])
 def addnewgame():
     award = str(request.get_data('trophies'))
-    award_query = "SELECT * FROM Award"
+    award_query = "SELECT * FROM Award WHERE Award_type = 1"
     award_where = award_query
-    award_where += " WHERE award_id =?"
+    award_where += " AND award_id = ?"
     club1 = str(request.get_data('club1'))
     club2 = str(request.get_data('club2'))
     club_query = 'SELECT Club.club_id, Club.club, Club.description, League.league, Club.emblem FROM Club\
